@@ -1,0 +1,12 @@
+@keyframes appear-to-start {
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes skeleton-animation {
+  100% {
+    transform: translateX(100%);
+  }
+}

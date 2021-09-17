@@ -1,0 +1,100 @@
+.btn {
+  cursor: pointer;
+  border: 0;
+  outline: 0;
+  padding: 8px 12px;
+  color: #fff;
+  border-radius: 8px;
+  font-family: 'OpenSans';
+  font-size: 16px;
+  transition: all .15s;
+
+  @media (max-width: 425px){
+    font-size: 14px;
+  }
+
+  &[disabled]:not(.btn-tiny) {
+    cursor: not-allowed;
+    background-color: $grey-dark;
+    &:hover {
+      background-color: darken($grey-dark, 15);
+    }
+  }
+
+  &-primary {
+    background-color: $blue;
+    &:hover {
+      background-color: darken($blue, 15);
+    }
+  }
+  &-danger {
+    background-color: $red;
+    &:hover {
+      background-color: darken($red, 15);
+    }
+  }
+
+  &-tiny {
+    background-color: transparent;
+    padding: 0;
+    color: #26364b;
+    &[disabled] {
+      cursor: not-allowed;
+      i {color: $grey-dark;}
+      &:hover {
+        i {color: darken($grey-dark, 15);}
+      }
+    }
+  }
+}
+
+.icon {
+  &-primary {
+    color: $blue;
+    &:hover {
+      color: darken($blue, 15);
+    }
+  }
+  &-danger {
+    color: $red;
+    &:hover {
+      color: darken($red, 15);
+    }
+  }
+}
+
+.link {
+  color: $blue;
+  &:hover, &.active {
+    color: darken($blue, 15);
+  }
+
+  &-tiny {
+    text-decoration: none;
+  }
+
+  &-green {
+    color: $green-light;
+    &:hover, &.active {
+      color: darken($green-light, 15);
+    }
+  }
+}
+
+input {
+  font-size: 14px;
+  border: 1px solid $green-light;
+  border-radius: 5px;
+  padding: 9px 6px 7px;
+  outline: none;
+  &:hover, &:focus {
+    border: 1px solid darken($green-light, 15);
+  }
+  &::placeholder {
+    color: $grey-dark;
+  }
+
+  &.ng-touched.ng-invalid {
+    border-color: $red
+  }
+}

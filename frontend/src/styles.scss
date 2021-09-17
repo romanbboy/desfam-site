@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+@import "assets/styles/font-awesome-4.7.0/css/font-awesome.min.css";
+@import '~lightgallery/scss/lightgallery';
+
+@import "assets/styles/variables";
+
+@import "assets/styles/fonts";
+@import "assets/styles/animations";
+
+@import "assets/styles/elements";
+@import "assets/styles/components";
+
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  font: 400 16px 'OpenSans';
+
+  @media (max-width: 425px){
+    font-size: 14px;
+  }
+}
+
+body {
+  background-color: #EEF2F8;
+  color: #26364b;
+}

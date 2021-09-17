@@ -1,0 +1,33 @@
+<div class="registration-block component">
+  <h1>Регистрация</h1>
+
+  <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form__group">
+      <label>Назови себя</label>
+      <input type="text" placeholder="Желательно ФИО" formControlName="username" />
+      <app-field-notice [field]="getField('username')"></app-field-notice>
+    </div>
+
+    <div class="form__group">
+      <label>Email</label>
+      <input type="email" formControlName="email" />
+      <app-field-notice [field]="getField('email')"></app-field-notice>
+    </div>
+
+    <div class="form__group">
+      <label>Пароль</label>
+      <input type="password" formControlName="password" />
+      <app-field-notice [field]="getField('password')"></app-field-notice>
+    </div>
+
+    <app-notice *ngIf="(errors$ | async).length" [notice]="errors$ | async" [type]="'errors'"></app-notice>
+
+    <div class="form__actions">
+      <app-submit-button [classes]="['btn-primary']"
+                         [disabled]="form.invalid || (isSubmitting$ | async)"
+                         [isSubmitting]="isSubmitting$ | async">
+        Зарегистрироваться
+      </app-submit-button>
+    </div>
+  </form>
+</div>

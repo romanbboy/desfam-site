@@ -1,0 +1,6 @@
+<div class="uploader">
+  <input id="input__file" type="file" (change)="onChangeProps($event)" [accept]="acceptProps || '*/*'" />
+  <label for="input__file">
+    <span class="btn btn-primary">{{titleProps}}</span>
+  </label>
+</div>

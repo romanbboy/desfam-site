@@ -1,0 +1,46 @@
+<div class="settings-block component" *ngIf="currentUser">
+  <h1>Настройки пользователя</h1>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+    <h2>Информация</h2>
+    <div class="form__group">
+      <label>Назови себя</label>
+      <input type="text" placeholder="Желательно ФИО" formControlName="username" />
+      <app-field-notice [field]="getField('username')"></app-field-notice>
+    </div>
+
+    <div class="form__group">
+      <label>Кто по жизни?</label>
+      <input type="text" placeholder="Например: Менеджер" formControlName="position" />
+      <app-field-notice [field]="getField('position')"></app-field-notice>
+    </div>
+
+    <div class="form__group">
+      <label>Аватарка</label>
+      <div class="form__horizontal form__vertical-center">
+        <app-picshow [picture]="avatarSettings$ | async"></app-picshow> &nbsp;&nbsp;&nbsp;
+        <app-uploader title="Новый аватар" accept=".jpg,.jpeg,.png" [onChange]="onAvatarChange"></app-uploader>
+      </div>
+    </div>
+
+    <br>
+    <h2>Сменить пароль</h2>
+
+    <div class="form__group">
+      <label>Новый пароль</label>
+      <input type="password" formControlName="password" />
+      <app-field-notice [field]="getField('password')"></app-field-notice>
+    </div>
+
+    <app-notice *ngIf="(errors$ | async).length " [notice]="(errors$ | async)" [type]="'errors'"></app-notice>
+    <app-notice *ngIf="(success$ | async).length " [notice]="(success$ | async)" [type]="'success'"></app-notice>
+
+    <div class="form__actions">
+      <app-submit-button [classes]="['btn-primary']"
+                         [disabled]="form.invalid || (isSubmitting$ | async)"
+                         [isSubmitting]="isSubmitting$ | async">
+        Сохранить
+      </app-submit-button>
+    </div>
+  </form>
+</div>

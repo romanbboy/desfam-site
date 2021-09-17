@@ -1,0 +1,42 @@
+<div class="main">
+  <ng-container *ngIf="!currentUser">
+    <div class="component">
+      <p style="text-align: center">Войди или зарегистируйся для того, что бы создать задачник</p>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="currentUser">
+    <div class="main__actions" *ngIf="!(showAddNewDatebook$ | async)">
+      <div class="main__action">
+        Добавить новый задачник &nbsp; <button class="btn btn-tiny" (click)="onShowAddNewDatebook()"><i class="fa fa-plus-square fa-2x icon-primary"></i></button>
+      </div>
+    </div>
+
+    <div class="component" *ngIf="showAddNewDatebook$ | async">
+      <ui-close class="main__close-add-datebook" (click)="onShowAddNewDatebook()"></ui-close>
+      <form [formGroup]="form" (ngSubmit)="submitNewDatebook()" class="form main__form">
+        <div class="form__group">
+          <h3>Добавить новый задачник</h3>
+          <div class="form__horizontal form__vertical-start form__nowrap">
+            <div class="flex flex__1 flex__column">
+              <input type="text" placeholder="Название задачника, сообщества" formControlName="datebook" />
+              <app-field-notice [field]="getField('datebook')"></app-field-notice>
+              <app-notice *ngIf="(errorsAddNewDatebook$ | async).length" [notice]="errorsAddNewDatebook$ | async" [type]="'errors'" ></app-notice>
+            </div> &nbsp;&nbsp;&nbsp;
+            <app-submit-button [classes]="['btn-tiny']"
+                               [disabled]="form.invalid || (isSubmittingAddNewDatebook$ | async)"
+                               [isSubmitting]="isSubmittingAddNewDatebook$ | async">
+              <i class="fa fa-plus-square icon-primary"></i>
+            </app-submit-button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <app-skeleton-list *ngIf="!(datebookList$ | async)"></app-skeleton-list>
+    <div class="component" *ngIf="datebookList$ | async">
+      <p style="text-align: center" *ngIf="!(datebookList$ | async).length">Тут появится список ваших задачников</p>
+      <app-list-datebooks [datebooks]="datebookList$ | async"></app-list-datebooks>
+    </div>
+  </ng-container>
+</div>

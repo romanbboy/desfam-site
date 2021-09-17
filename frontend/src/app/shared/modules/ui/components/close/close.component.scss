@@ -1,0 +1,24 @@
+@import "src/assets/styles/variables";
+
+.ui-close {
+  cursor: pointer;
+
+  &:hover {
+    svg {
+      fill: $red
+    }
+  }
+
+  svg {
+    width: 15px;
+    height: 15px;
+    transition: all .2s;
+  }
+
+  @media (max-width: 425px){
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+}

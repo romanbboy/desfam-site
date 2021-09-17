@@ -1,0 +1,20 @@
+@import '/src/assets/styles/variables';
+
+.notice {
+  margin: 10px 0;
+
+  p {
+    font-size: 14px;
+  }
+
+  &.success {
+    p {
+      color: $green
+    }
+  }
+  &.errors {
+    p {
+      color: $red
+    }
+  }
+}

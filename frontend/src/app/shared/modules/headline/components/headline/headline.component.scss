@@ -1,0 +1,28 @@
+.headline{
+  font-weight: 300;
+  font-size: 20px;
+  margin: 20px 0;
+
+  @media (max-width: 425px){
+    font-size: 18px;
+  }
+
+  &__date {
+    margin: 15px;
+    display: flex;
+    justify-content: space-between;
+
+    @media (max-width: 425px){
+      margin: 10px;
+    }
+  }
+
+  &__full-date {
+    font-weight: 400;
+  }
+
+  &__hr {
+    height: 1px;
+    background: linear-gradient(to right, rgb(202, 214, 244, 0.15) 0%, rgb(202, 214, 244, 1) 50%, rgb(202, 214, 244, 0.15) 100%);
+  }
+}

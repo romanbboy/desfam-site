@@ -1,0 +1,26 @@
+<div class="wrapper">
+  <div class="top-bar">
+    <a [routerLink]="['/']" >
+      <img src="assets/img/elements/logo.svg" class="top-bar__logo" />
+    </a>
+
+    <div class="top-bar__panel">
+      <ng-container *ngIf="!(currentUser$ | async)">
+        <a class="link link-tiny" [routerLink]="['/registration']" routerLinkActive="active">Регистрация</a>
+        <a class="link link-tiny" [routerLink]="['/login']" routerLinkActive="active" >Вход</a>
+      </ng-container>
+
+      <ng-container *ngIf="currentUser$ | async">
+        <a [routerLink]="['/settings']" class="link link-tiny top-bar__settings">
+          <i class="fa fa-cog"></i>
+        </a>
+
+        <app-picshow [picture]="(currentUser$ | async).avatar"></app-picshow>
+
+        <button class="btn btn-tiny top-bar__logout" (click)="logout()">
+          <i class="fa fa-sign-out"></i>
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+@import "src/assets/styles/variables";
+
+.top-bar {
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__logo {
+    width: 70px;
+
+    @media (max-width: 425px){
+      width: 45px;
+    }
+  }
+
+  &__panel {
+    display: flex;
+    align-items: center;
+
+    & > *{
+      margin: 0 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    a {
+      font-size: 16px;
+      font-weight: 300;
+    }
+
+    i {
+      font-size: 20px;
+    }
+  }
+
+  &__settings {
+    i {color: $grey-dark2}
+    &:hover {
+      i {color: darken($grey-dark2, 15)}
+    }
+  }
+
+  &__logout {
+    i {color: $red}
+    &:hover {
+      i {color: darken($red, 15)}
+    }
+  }
+}

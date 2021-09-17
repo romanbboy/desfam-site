@@ -1,0 +1,8 @@
+<button type="submit" class="btn" [class]="classesProps && classesProps.join(' ')" [disabled]="disabledProps">
+  <ng-container *ngIf="!isSubmittingProps">
+    <ng-content></ng-content>
+  </ng-container>
+  <ng-container *ngIf="isSubmittingProps">
+    <i class="fa fa-spinner fa-spin fa-fw"></i>
+  </ng-container>
+</button>

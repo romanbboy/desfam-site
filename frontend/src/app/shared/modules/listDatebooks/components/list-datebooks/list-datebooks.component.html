@@ -1,0 +1,15 @@
+<div class="list-datebooks">
+  <h2>Все задачники</h2>
+
+  <div class="list-datebooks__item" *ngFor="let datebook of datebooksProps">
+    <div class="list-datebooks__icon">
+      <i *ngIf="datebook.creator !== (currentUser$ | async).id" class="fa fa-circle fa-fw icon-primary"></i>
+      <i *ngIf="datebook.creator === (currentUser$ | async).id" class="fa fa-user-circle-o fa-fw icon-primary"></i>
+    </div>
+    <div class="list-datebooks__item-name">
+      <a [routerLink]="['/datebooks', datebook.id]" class="link link-tiny link-green">
+        {{datebook.title}}
+      </a>
+    </div>
+  </div>
+</div>

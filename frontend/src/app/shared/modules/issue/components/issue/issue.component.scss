@@ -1,0 +1,91 @@
+@import "src/assets/styles/variables";
+
+.issue {
+  margin: 10px 0;
+  position: relative;
+
+  &:hover {
+    .issue__settings {
+      display: block;
+    }
+  }
+
+  &__text {
+    background-color: $grey;
+    padding: 3px 30px 3px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+
+    @media (max-width: 425px){
+      font-size: 13px;
+    }
+  }
+
+  &__settings {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    display: none;
+    z-index: 2;
+  }
+  &__settings-icon {
+    display: flex;
+    cursor: pointer;
+
+    .point {
+      width: 4px;
+      height: 4px;
+      margin: 0 1px;
+      border-radius: 50%;
+      background-color: $red;
+      transform: translateX(8px);
+      opacity: 0;
+      &:nth-child(1) {
+        animation: appear-to-start .3s forwards;
+      }
+      &:nth-child(2) {
+        animation: appear-to-start .2s forwards .2s;
+      }
+      &:nth-child(3) {
+        animation: appear-to-start .1s forwards .3s;
+      }
+    }
+  }
+
+  &__settings-modal {
+    //display: none;
+    position: absolute;
+    top: calc(100% + 11px);
+    right: -5px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(201, 234, 242);
+    width: max-content;
+  }
+  &__set {
+    font-size: 14px;
+    line-height: 26px;
+    cursor: pointer;
+    display: block;
+
+    i {
+      transition: all .1s;
+    }
+
+    &.issue-ready:hover i{
+      color: $green;
+    }
+
+    &.issue-cancel:hover i {
+      color: $grey-dark2;
+    }
+
+    &.issue-edit:hover i {
+      color: $purple;
+    }
+
+    &.issue-delete:hover i{
+      color: $red;
+    }
+  }
+}

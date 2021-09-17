@@ -1,0 +1,47 @@
+<div class="notepad">
+  <div class="notepad__head">
+    <div class="notepad__avatar">
+      <app-picshow></app-picshow>
+    </div>
+    <div class="notepad__user-info">
+      <div class="notepad__username">Мороз Роман Игоревич</div>
+      <div class="notepad__user-addition">Front-end разработчик</div>
+    </div>
+  </div>
+
+  <div class="notepad__plan">
+<!--    <div class="notepad__plan-empty">У лентяя нет дел на сегодня</div>-->
+    <div class="notepad__list">
+      <app-issue></app-issue>
+      <app-issue></app-issue>
+      <!--<app-issue></app-issue>
+      <app-issue></app-issue>
+      <app-issue></app-issue>-->
+    </div>
+  </div>
+
+  <div class="notepad__settings">
+    <div class="notepad__settings-actions">
+      <button class="btn btn-tiny notepad__add-issue" title="Добавить новую задачу">
+        <i class="fa fa-plus-circle"></i>
+      </button>
+    </div>
+    <div class="notepad__settings-block">
+      <div class="notepad__add-new-issue-block">
+        <p>Добавить новую задачу</p>
+        <div class="wrap-block">
+          <input type="text" placeholder="Описание задачи" />
+          <button class="btn btn-tiny" title="Добавить задачу"><i class="fa fa-plus"></i></button>
+        </div>
+      </div>
+
+      <div class="notepad__edit-issue-block">
+        <p>Редактируем задачу</p>
+        <div class="wrap-block">
+          <input type="text" placeholder="Описание задачи" />
+          <button class="btn btn-tiny" title="Редактировать задачу"><i class="fa fa-pencil"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

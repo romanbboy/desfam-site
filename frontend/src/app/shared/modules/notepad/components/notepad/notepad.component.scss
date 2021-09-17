@@ -1,0 +1,110 @@
+@import "src/assets/styles/variables";
+
+.notepad {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+
+  @media (max-width: 425px){
+    padding: 15px;
+  }
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(29, 139, 216, .4);
+  }
+
+  &__avatar {
+
+  }
+
+  &__user-info {
+
+  }
+
+  &__username {
+    font-size: 20px;
+    font-weight: 600;
+    text-align: right;
+
+    @media (max-width: 425px){
+      font-size: 18px;
+    }
+  }
+
+  &__user-addition {
+    font-size: 14px;
+    text-align: right;
+
+    @media (max-width: 425px){
+      font-size: 12px;
+    }
+  }
+
+  &__plan {
+    padding: 17px 0;
+    height: calc(100% - 76px);
+
+    @media (max-width: 425px){
+      padding: 13px 0;
+    }
+  }
+
+  &__plan-empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  &__settings {
+
+  }
+  &__settings-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    .notepad__add-issue i {
+      font-size: 20px;
+      color: $blue-dark;
+      &:hover {
+        color: darken($blue-dark, 15)
+      }
+    }
+  }
+
+  &__settings-block {
+    border-top: 1px solid rgba(29, 139, 216, .4);
+
+    p {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .wrap-block {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+
+      button {
+        margin-left: 10px;
+
+        i {
+          font-size: 16px;
+          color: darken($blue, 15);
+        }
+      }
+
+      input {
+        flex: 1
+      }
+    }
+  }
+  &__add-new-issue-block {
+    padding: 15px 0;
+  }
+}
