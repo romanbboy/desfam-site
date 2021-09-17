@@ -10,8 +10,7 @@ import {environment} from "../../../environments/environment";
 
 const initAuthState: AuthStateInterface = {
   isSubmitting: false,
-  currentUser: null,
-  errors: []
+  currentUser: null
 }
 
 const authReducer = createReducer(
@@ -27,7 +26,7 @@ const authReducer = createReducer(
   on(registrationFailureAction, (state, action): AuthStateInterface => {
     return ({
       ...initAuthState,
-      errors: action.errors
+      error: action.error
     })
   }),
 
@@ -44,7 +43,7 @@ const authReducer = createReducer(
   on(loginFailureAction, (state, action): AuthStateInterface => {
     return ({
       ...initAuthState,
-      errors: action.errors
+      error: action.error
     })
   }),
 
@@ -75,7 +74,7 @@ const authReducer = createReducer(
 
   on(routerNavigationAction, (state): AuthStateInterface => ({
     ...state,
-    errors: []
+    error: null
   }))
 )
 

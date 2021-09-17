@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
 import {NoticeType} from "../../../shared/types/notice.type";
 import {select, Store} from "@ngrx/store";
-import {errorsSelector, isSubmittingSelector} from "../../store/selectors";
+import {errorSelector, isSubmittingSelector} from "../../store/selectors";
 import {loginAction} from "../../store/actions/login.action";
 
 @Component({
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit{
   form: FormGroup
 
   isSubmitting$: Observable<boolean>
-  errors$: Observable<NoticeType>
+  error$: Observable<NoticeType>
 
   constructor (private fb: FormBuilder, private store: Store) {
   }
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit{
 
   initValues (): void {
     this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector));
-    this.errors$ = this.store.pipe(select(errorsSelector))
+    this.error$ = this.store.pipe(select(errorSelector))
   }
 
   initForm (): void {

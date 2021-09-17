@@ -9,9 +9,9 @@ export const showAddNewDatebookSelector = createSelector(
   (state: MainStateInterface) => state.showAddNewDatebook
 )
 
-export const errorsAddNewDatebookSelector = createSelector(
+export const errorAddNewDatebookSelector = createSelector(
   mainFeatureSelector,
-  (state: MainStateInterface) => state.errorsAddNewDatebook
+  (state: MainStateInterface) => state.errorAddNewDatebook
 )
 
 export const isSubmittingAddNewDatebookSelector = createSelector(

@@ -2,7 +2,7 @@ import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/c
 import {select, Store} from "@ngrx/store";
 import {showAddNewDatebookAction} from "../../store/actions/sync.action";
 import {
-  datebookListSelector, errorsAddNewDatebookSelector,
+  datebookListSelector, errorAddNewDatebookSelector,
   isSubmittingAddNewDatebookSelector,
   showAddNewDatebookSelector
 } from "../../store/selectors";
@@ -25,7 +25,7 @@ import {Actions, ofType} from "@ngrx/effects";
 export class MainComponent implements OnInit, OnDestroy {
   form: FormGroup
   showAddNewDatebook$: Observable<boolean>
-  errorsAddNewDatebook$: Observable<NoticeType>
+  errorAddNewDatebook$: Observable<NoticeType>
   isSubmittingAddNewDatebook$: Observable<boolean>
   datebookList$: Observable<Array<DatebookInterface>>
   currentUser: CurrentUserInterface
@@ -47,7 +47,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   initValues(): void {
     this.showAddNewDatebook$ = this.store.pipe(select(showAddNewDatebookSelector));
-    this.errorsAddNewDatebook$ = this.store.pipe(select(errorsAddNewDatebookSelector));
+    this.errorAddNewDatebook$ = this.store.pipe(select(errorAddNewDatebookSelector));
     this.isSubmittingAddNewDatebook$ = this.store.pipe(select(isSubmittingAddNewDatebookSelector));
     this.datebookList$ = this.store.pipe(select(datebookListSelector));
   }

@@ -7,7 +7,7 @@ import {filter} from "rxjs/operators";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {updateCurrentUserAction} from "../../../auth/store/actions/updateCurrentUser.action";
 import {NoticeType} from "../../../shared/types/notice.type";
-import {avatarSelector, errorsSelector, isSubmittingSelector, successSelector} from "../../store/selectors";
+import {avatarSelector, errorSelector, isSubmittingSelector, successSelector} from "../../store/selectors";
 import {clearNoticeSettingsAction, setAvatarSettingsAction} from "../../store/actions/sync.action";
 import {DomSanitizer} from "@angular/platform-browser";
 import {AvatarType} from "../../../shared/types/avatar.type";
@@ -24,7 +24,7 @@ export class SettingsComponent implements OnInit, OnDestroy{
   currentUserSubscription: Subscription
 
   isSubmitting$: Observable<boolean>
-  errors$: Observable<NoticeType>
+  error$: Observable<NoticeType>
   success$: Observable<NoticeType>
   avatarSettings$: Observable<AvatarType>
 
@@ -44,7 +44,7 @@ export class SettingsComponent implements OnInit, OnDestroy{
 
   initValues(): void {
     this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector))
-    this.errors$ = this.store.pipe(select(errorsSelector))
+    this.error$ = this.store.pipe(select(errorSelector))
     this.success$ = this.store.pipe(select(successSelector))
     this.avatarSettings$ = this.store.pipe(select(avatarSelector))
   }

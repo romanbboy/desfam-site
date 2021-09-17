@@ -2,19 +2,15 @@
 
 .notice {
   margin: 10px 0;
+  font-size: 14px;
 
-  p {
-    font-size: 14px;
+  &.standard {
+    color: $grey-dark;
   }
-
   &.success {
-    p {
-      color: $green
-    }
+    color: $green;
   }
-  &.errors {
-    p {
-      color: $red
-    }
+  &.error {
+    color: $red;
   }
 }

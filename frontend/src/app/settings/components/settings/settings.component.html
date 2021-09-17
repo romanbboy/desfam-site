@@ -32,8 +32,8 @@
       <app-field-notice [field]="getField('password')"></app-field-notice>
     </div>
 
-    <app-notice *ngIf="(errors$ | async).length " [notice]="(errors$ | async)" [type]="'errors'"></app-notice>
-    <app-notice *ngIf="(success$ | async).length " [notice]="(success$ | async)" [type]="'success'"></app-notice>
+    <app-notice *ngIf="error$ | async" [notice]="(error$ | async)" [type]="'error'"></app-notice>
+    <app-notice *ngIf="success$ | async" [notice]="(success$ | async)" [type]="'success'"></app-notice>
 
     <div class="form__actions">
       <app-submit-button [classes]="['btn-primary']"

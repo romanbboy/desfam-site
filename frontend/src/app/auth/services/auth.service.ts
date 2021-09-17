@@ -23,7 +23,7 @@ export class AuthService {
   }
 
   getCurrentUser (): Observable<CurrentUserInterface> {
-    const url = environment.apiUrl + '/user'
+    const url = environment.apiUrl + '/users/current'
     return this.http.get<CurrentUserInterface>(url)
   }
 
@@ -31,7 +31,7 @@ export class AuthService {
     let formData = new FormData();
     for (let key in data) formData.append(key, data[key])
 
-    const url = environment.apiUrl + '/user'
+    const url = environment.apiUrl + '/users/current'
     return this.http.put<CurrentUserInterface>(url, formData)
   }
 }

@@ -22,7 +22,7 @@ export class RegistrationEffect {
 
           catchError((errorResponse: HttpErrorResponse) => {
             return of(
-              registrationFailureAction({errors: errorResponse.error})
+              registrationFailureAction({error: errorResponse.error})
             )
           })
         )

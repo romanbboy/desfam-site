@@ -9,9 +9,9 @@ export const isSubmittingSelector = createSelector(
   (state: SettingsStateInterface) => state.isSubmitting
 )
 
-export const errorsSelector = createSelector(
+export const errorSelector = createSelector(
   settingsFeatureSelector,
-  (state: SettingsStateInterface) => state.errors
+  (state: SettingsStateInterface) => state.error
 )
 
 export const successSelector = createSelector(

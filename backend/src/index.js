@@ -19,8 +19,8 @@ app.use(cors());
 
 // routes
 app.use('/api/auth', authRouter);
-app.use('/api/user', userRouter);
-app.use('/api/datebook', datebookRouter);
+app.use('/api/users', userRouter);
+app.use('/api/datebooks', datebookRouter);
 
 // Скачивать файлы, для прода работает
 // p.s для дев качать так http://localhost:3000/files/.......

@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
 import {select, Store} from "@ngrx/store";
 import {registrationAction} from "../../store/actions/registration.action";
-import {errorsSelector, isSubmittingSelector} from "../../store/selectors";
+import {errorSelector, isSubmittingSelector} from "../../store/selectors";
 import {NoticeType} from "../../../shared/types/notice.type";
 
 @Component({
@@ -15,7 +15,7 @@ export class RegistrationComponent implements OnInit{
   form: FormGroup
 
   isSubmitting$: Observable<boolean>
-  errors$: Observable<NoticeType>
+  error$: Observable<NoticeType>
 
   constructor (private fb: FormBuilder, private store: Store) {
   }
@@ -27,7 +27,7 @@ export class RegistrationComponent implements OnInit{
 
   initValues (): void {
     this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector));
-    this.errors$ = this.store.pipe(select(errorsSelector));
+    this.error$ = this.store.pipe(select(errorSelector));
   }
 
   initForm (): void {

@@ -7,7 +7,7 @@ import {logoutAction} from "../../auth/store/actions/sync.action";
 
 const initMainState: MainStateInterface = {
   showAddNewDatebook: false,
-  errorsAddNewDatebook: [],
+  errorAddNewDatebook: null,
   isSubmittingAddNewDatebook: false,
   datebookList: null
 }
@@ -25,19 +25,19 @@ const mainReducer = createReducer(
 
   on(addDatebookAction, (state): MainStateInterface => ({
     ...state,
-    errorsAddNewDatebook: [],
+    errorAddNewDatebook: null,
     isSubmittingAddNewDatebook: true
   })),
   on(addDatebookSuccessAction, (state, action): MainStateInterface => ({
     ...state,
     showAddNewDatebook: false,
-    errorsAddNewDatebook: [],
+    errorAddNewDatebook: null,
     isSubmittingAddNewDatebook: false,
     datebookList: [...state.datebookList, action.datebook]
   })),
   on(addDatebookFailureAction, (state, action): MainStateInterface => ({
     ...state,
-    errorsAddNewDatebook: action.errors,
+    errorAddNewDatebook: action.error,
     isSubmittingAddNewDatebook: false
   })),
 

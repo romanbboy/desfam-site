@@ -1,9 +1,74 @@
-<app-headline [date]="'12.03.2021'"></app-headline>
-<div class="notepad-list">
-  <app-notepad></app-notepad>
-  <app-notepad></app-notepad>
-  <!--<app-notepad></app-notepad>
-  <app-notepad></app-notepad>
-  <app-notepad></app-notepad>
-  <app-notepad></app-notepad>-->
+<div class="datebook" *ngIf="(currentUser$ | async) as currentUser">
+
+  <div>
+    settingsShow - {{settingsShow}} <br>
+    settingsTarget - {{settingsTarget}} <br>
+    settingsAddParticipant - {{settingsAddParticipant | json}}
+  </div>
+
+  <div class="datebook__actions">
+    <div class="datebook__action" *ngIf="!settingsShow">
+      Настройки &nbsp; <button class="btn btn-tiny" (click)="settingsShow = true"><i class="fa fa-gears fa-2x icon-primary"></i></button>
+    </div>
+
+    <ng-container *ngIf="settingsShow">
+
+      <ng-container *ngIf="currentUser.id === (infoDatebook$ | async).creator">
+        <div class="datebook__action datebook__action_small">
+          Добавить участника &nbsp; <button class="btn btn-tiny" (click)="settingsTarget = 'addParticipant'"><i class="fa fa-user-plus icon-success"></i></button>
+        </div>
+        <div class="datebook__action datebook__action_small">
+          Удалить участника &nbsp; <button class="btn btn-tiny" (click)="settingsTarget = 'removeParticipant'"><i class="fa fa-user-times icon-danger"></i></button>
+        </div>
+        <div class="datebook__action datebook__action_small">
+          Закрыть настройки &nbsp; <button class="btn btn-tiny" (click)="closeSettings()"><i class="fa fa-times-circle-o icon-neutral"></i></button>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="currentUser.id !== (infoDatebook$ | async).creator">
+        <div class="datebook__action datebook__action_small">
+          Покинуть ежедневник &nbsp; <button class="btn btn-tiny"><i class="fa fa-sign-out icon-danger"></i></button>
+        </div>
+        <div class="datebook__action datebook__action_small">
+          Закрыть настройки &nbsp; <button class="btn btn-tiny" (click)="closeSettings()"><i class="fa fa-times-circle-o icon-neutral"></i></button>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+<!--  Настройки-->
+  <div class="component mb-5">
+
+<!--    Добавление нового участника-->
+    <form [formGroup]="addParticipantForm" class="form datebook__add-participant-form">
+      <ui-close class="datebook__close-add-participant" (click)="settingsTarget = null"></ui-close>
+      <div class="form__group">
+        <h3>Добавить нового участника</h3>
+        <div class="form__horizontal form__vertical-start form__nowrap">
+          <div class="flex flex__1 flex__column">
+            <input type="email" placeholder="Введи точный email пользователя" formControlName="email" />
+            <app-field-notice [field]="addParticipantForm.get('email')"></app-field-notice>
+            <app-notice *ngIf="settingsAddParticipant.notice" [notice]="settingsAddParticipant.notice" [type]="settingsAddParticipant.typeNotice" ></app-notice>
+          </div> &nbsp;&nbsp;&nbsp;
+          <app-submit-button [classes]="['btn-tiny']" [disabled]="addParticipantForm.invalid">
+            <i class="fa fa-plus-square icon-primary"></i>
+          </app-submit-button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+<!--  Основной контент-->
+  <h2 *ngIf="(infoDatebook$ | async) as infoDatebook">
+    <i class="fa fa-file-text-o"></i> &nbsp; Ежедневник "{{infoDatebook.title}}"
+  </h2>
+
+  <!--<div class="datebook__day">
+    <app-headline [date]="'12.03.2021'"></app-headline>
+    <div class="notepad-list">
+      <app-notepad></app-notepad>
+      <app-notepad></app-notepad>
+    </div>
+  </div>-->
 </div>

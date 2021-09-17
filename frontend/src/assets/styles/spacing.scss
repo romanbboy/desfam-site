@@ -1,0 +1,61 @@
+$atom: 8px;
+
+$breakpoints: (
+  "xs": 320px, // Mobile S
+  "sm": 425px, // Mobile L
+  "md": 768px, // Tablet
+  "lg": 1024px, // Laptop
+  "xl": 1200px
+);
+
+.mt-auto {
+  margin-top: auto !important;
+}
+.mh-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+.ml-auto {
+  margin-left: auto !important;
+}
+@media (min-width: map-get($breakpoints, "md") + 1px) {
+  .ml-md-auto {
+    margin-left: auto !important;
+  }
+}
+.mr-auto {
+  margin-left: auto !important;
+}
+
+
+@each $propKey, $propName in ("p": "padding", "m": "margin") {
+  @each $sideKey, $sides in (
+    "": "top" "right" "bottom" "left",
+    "h": "right" "left",
+    "v": "top" "bottom",
+    "t": "top",
+    "r": "right",
+    "b": "bottom",
+    "l": "left"
+  ) {
+    @for $i from 0 through 10 {
+      .#{$propKey}#{$sideKey}-#{$i} {
+        @each $side in $sides {
+          #{$propName}-#{$side}: #{$atom * $i} !important;
+        }
+      }
+    }
+
+    @each $bpName, $bpVal in $breakpoints {
+      @for $i from 0 through 10 {
+        @media (min-width: $bpVal + 1px) {
+          .#{$propKey}#{$sideKey}-#{$bpName}-#{$i} {
+            @each $side in $sides {
+              #{$propName}-#{$side}: #{$atom * $i} !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}

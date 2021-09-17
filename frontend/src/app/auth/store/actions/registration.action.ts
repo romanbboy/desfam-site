@@ -16,5 +16,5 @@ export const registrationSuccessAction = createAction(
 
 export const registrationFailureAction = createAction(
   actionTypes.REGISTRATION_FAILURE,
-  props<{errors: NoticeType}>()
+  props<{error: NoticeType}>()
 )

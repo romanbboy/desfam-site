@@ -14,5 +14,5 @@ export const getAllDatebooksSuccessAction = createAction(
 
 export const getAllDatebooksFailureAction = createAction(
   '[Main] GET_ALL_DATEBOOKS_FAILURE',
-  props<{errors: NoticeType}>()
+  props<{error: NoticeType}>()
 )

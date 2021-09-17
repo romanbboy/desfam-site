@@ -51,15 +51,19 @@
 .icon {
   &-primary {
     color: $blue;
-    &:hover {
-      color: darken($blue, 15);
-    }
+    &:hover {color: darken($blue, 15);}
+  }
+  &-success {
+    color: $green;
+    &:hover {color: darken($green, 15);}
   }
   &-danger {
     color: $red;
-    &:hover {
-      color: darken($red, 15);
-    }
+    &:hover {color: darken($red, 15);}
+  }
+  &-neutral {
+    color: $grey-dark2;
+    &:hover {color: darken($grey-dark2, 15);}
   }
 }
 

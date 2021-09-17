@@ -13,8 +13,8 @@ import {loginSuccessAction} from "../../auth/store/actions/login.action";
 const initSettingsState: SettingsStateInterface = {
   isSubmitting: false,
   avatar: null,
-  errors: [],
-  success: []
+  error: null,
+  success: null
 }
 
 const settingsReducer = createReducer(
@@ -40,26 +40,26 @@ const settingsReducer = createReducer(
   on(updateCurrentUserAction, (state): SettingsStateInterface => ({
     ...state,
     isSubmitting: true,
-    errors: [],
-    success: []
+    error: null,
+    success: null
   })),
   on(updateCurrentUserSuccessAction, (state): SettingsStateInterface => ({
     ...state,
-    errors: [],
-    success: ['Изменения сохранены'],
+    error: null,
+    success: 'Изменения сохранены',
     isSubmitting: false
   })),
   on(updateCurrentUserFailureAction, (state, action): SettingsStateInterface => ({
     ...state,
-    errors: action.errors,
-    success: [],
+    error: action.error,
+    success: null,
     isSubmitting: false
   })),
 
   on(clearNoticeSettingsAction, (state): SettingsStateInterface => ({
     ...state,
-    errors: [],
-    success: []
+    error: null,
+    success: null
   })),
 )
 

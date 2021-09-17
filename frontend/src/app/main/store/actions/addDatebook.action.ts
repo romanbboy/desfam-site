@@ -15,5 +15,5 @@ export const addDatebookSuccessAction = createAction(
 
 export const addDatebookFailureAction = createAction(
   '[Main] ADD_DATEBOOK_FAILURE',
-  props<{errors: NoticeType}>()
+  props<{error: NoticeType}>()
 )

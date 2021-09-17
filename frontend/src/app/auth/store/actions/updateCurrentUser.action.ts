@@ -16,5 +16,5 @@ export const updateCurrentUserSuccessAction = createAction(
 
 export const updateCurrentUserFailureAction = createAction(
   actionTypes.UPDATE_CURRENT_USER_FAILURE,
-  props<{errors: NoticeType}>()
+  props<{error: NoticeType}>()
 )

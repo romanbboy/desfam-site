@@ -23,7 +23,7 @@ export class GetAllDatebooksEffect {
           }),
 
           catchError((errors: HttpErrorResponse) => {
-            return of(getAllDatebooksFailureAction({errors: errors.error}))
+            return of(getAllDatebooksFailureAction({error: errors.error}))
           })
         )
       })

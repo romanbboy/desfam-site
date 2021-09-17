@@ -19,7 +19,7 @@ export class AddDatebookEffect {
           }),
 
           catchError((errors: HttpErrorResponse) => {
-            return of(addDatebookFailureAction({errors: errors.error}))
+            return of(addDatebookFailureAction({error: errors.error}))
           })
         )
       })

@@ -1,1 +1,1 @@
-export type NoticeType = string[]
+export type NoticeType = string

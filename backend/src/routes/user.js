@@ -11,8 +11,9 @@ const User = require('../models/user-model')
 
 const router = Router();
 
-router.get('/', checkToken, (req, res) => {
-  const {_id: id, username, email, position, avatar} = req.user
+// Работа с текущим пользователем
+router.get('/current', checkToken, (req, res) => {
+  const {id, username, email, position, avatar} = req.user
 
   res.status(200).json({
     id, username, email, position, avatar,
@@ -20,7 +21,7 @@ router.get('/', checkToken, (req, res) => {
   })
 })
 
-router.put('/', checkToken, uploadAvatar.single('avatar'), async (req, res) => {
+router.put('/current', checkToken, uploadAvatar.single('avatar'), async (req, res) => {
   let updateFields = {
     username: req.body.username,
     position: req.body.position
@@ -67,7 +68,7 @@ router.put('/', checkToken, uploadAvatar.single('avatar'), async (req, res) => {
     updateFields,
     {new: true},
     (err, user) => {
-      if (err) res.status(500).json(['Ошибка'])
+      if (err) res.status(500).json('Ошибка')
       else {
         const {_id: id, username, email, position, avatar} = user;
         res.status(200).json({
@@ -77,6 +78,14 @@ router.put('/', checkToken, uploadAvatar.single('avatar'), async (req, res) => {
       }
     }
   )
+});
+
+// Работа с пользователями
+router.post('/findOne', async (req, res) => {
+  const user = await User.findOne({[req.body.field]: req.body.val}, '-password -__v');
+
+  if (user) res.status(200).json(user);
+  else res.status(204).json('Пользователь не найден');
 })
 
 module.exports = router

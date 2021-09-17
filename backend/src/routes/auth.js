@@ -13,7 +13,7 @@ router.post('/registration', (req, res) => {
   const hashPassword = hash.update('desfam').digest('hex');
 
   // Секретный ключ для JWT
-  const tokenKey = '192.168.0.117';
+  const tokenKey = process.env.TOKEN_KEY;
 
   // Добавляем в БД
   const {username, email} = req.body
@@ -23,9 +23,9 @@ router.post('/registration', (req, res) => {
   user.save((err, data) => {
     if (err) {
       if (err.code === 11000 && err.keyValue.email) {
-        res.status(400).json(['Такой email уже существует'])
+        res.status(400).json('Такой email уже существует')
       } else {
-        res.status(400).json(['Неизвестная ошибка'])
+        res.status(400).json('Неизвестная ошибка')
       }
     }
     else {
@@ -53,7 +53,7 @@ router.post('/login',  async (req, res) => {
 
   if (user) {
     // Секретный ключ для JWT
-    const tokenKey = '192.168.0.117';
+    const tokenKey = process.env.TOKEN_KEY;
     const accessToken = jwt.sign({id: user._id}, tokenKey);
 
     res.status(200).json({
@@ -65,7 +65,7 @@ router.post('/login',  async (req, res) => {
       accessToken
     })
   }
-  else res.status(400).json(['Такого пользователя не существует'])
+  else res.status(400).json('Такого пользователя не существует')
 
 });
 

@@ -21,7 +21,7 @@
             <div class="flex flex__1 flex__column">
               <input type="text" placeholder="Название задачника, сообщества" formControlName="datebook" />
               <app-field-notice [field]="getField('datebook')"></app-field-notice>
-              <app-notice *ngIf="(errorsAddNewDatebook$ | async).length" [notice]="errorsAddNewDatebook$ | async" [type]="'errors'" ></app-notice>
+              <app-notice *ngIf="errorAddNewDatebook$ | async" [notice]="errorAddNewDatebook$ | async" [type]="'error'" ></app-notice>
             </div> &nbsp;&nbsp;&nbsp;
             <app-submit-button [classes]="['btn-tiny']"
                                [disabled]="form.invalid || (isSubmittingAddNewDatebook$ | async)"
@@ -36,7 +36,7 @@
     <app-skeleton-list *ngIf="!(datebookList$ | async)"></app-skeleton-list>
     <div class="component" *ngIf="datebookList$ | async">
       <p style="text-align: center" *ngIf="!(datebookList$ | async).length">Тут появится список ваших задачников</p>
-      <app-list-datebooks [datebooks]="datebookList$ | async"></app-list-datebooks>
+      <app-list-datebooks *ngIf="(datebookList$ | async).length" [datebooks]="datebookList$ | async"></app-list-datebooks>
     </div>
   </ng-container>
 </div>

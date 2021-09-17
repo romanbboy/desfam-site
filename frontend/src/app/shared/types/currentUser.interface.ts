@@ -1,8 +1,5 @@
-export interface CurrentUserInterface {
-  id: string
-  username: string,
-  avatar: string | null,
-  email: string,
-  position: string | null,
+import {UserInterface} from "./user.interface";
+
+export interface CurrentUserInterface extends UserInterface{
   accessToken: string
 }

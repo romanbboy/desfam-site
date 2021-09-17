@@ -3,7 +3,7 @@ import {NoticeType} from "../../shared/types/notice.type";
 
 export interface MainStateInterface {
   showAddNewDatebook: boolean,
-  errorsAddNewDatebook: NoticeType
+  errorAddNewDatebook: NoticeType
   isSubmittingAddNewDatebook: boolean,
   datebookList: Array<DatebookInterface> | null
 }

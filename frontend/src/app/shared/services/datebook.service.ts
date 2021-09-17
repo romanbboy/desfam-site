@@ -10,13 +10,18 @@ import {Observable} from "rxjs";
 })
 export class DatebookService {
   add(data: DatebookAddingInputInterface): Observable<DatebookInterface> {
-    const url = environment.apiUrl + '/datebook/add'
+    const url = environment.apiUrl + '/datebooks/add'
     return this.http.post<DatebookInterface>(url, data)
   }
 
   getAll(): Observable<Array<DatebookInterface>> {
-    const url = environment.apiUrl + '/datebook/getAll'
+    const url = environment.apiUrl + '/datebooks/getAll'
     return this.http.get<Array<DatebookInterface>>(url)
+  }
+
+  get(id) {
+    const url = `${environment.apiUrl}/datebooks/${id}`;
+    return this.http.get(url);
   }
 
   constructor(private http: HttpClient) {

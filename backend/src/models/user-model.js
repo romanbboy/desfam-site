@@ -18,6 +18,12 @@ const userSchema = new Schema({
     required: true,
     minLength: 5
   }
-})
+});
+
+userSchema.set('toJSON', {
+  virtuals: true,
+  versionKey: false,
+  transform: function (doc, ret) { delete ret._id }
+});
 
 module.exports = model('User', userSchema)

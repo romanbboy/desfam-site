@@ -21,7 +21,7 @@ export class LoginEffect {
           }),
 
           catchError((errors: HttpErrorResponse) => {
-            return of(loginFailureAction({errors: errors.error}))
+            return of(loginFailureAction({error: errors.error}))
           })
         )
       })

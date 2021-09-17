@@ -16,5 +16,5 @@ export const loginSuccessAction = createAction(
 
 export const loginFailureAction = createAction(
   actionTypes.LOGIN_FAILURE,
-  props<{errors: NoticeType}>()
+  props<{error: NoticeType}>()
 )

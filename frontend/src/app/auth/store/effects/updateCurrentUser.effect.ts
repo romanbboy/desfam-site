@@ -24,7 +24,7 @@ export class UpdateCurrentUserEffect {
 
           catchError((errorResponse: HttpErrorResponse) => {
             return of(
-              updateCurrentUserFailureAction({errors: errorResponse.error})
+              updateCurrentUserFailureAction({error: errorResponse.error})
             )
           })
         )
