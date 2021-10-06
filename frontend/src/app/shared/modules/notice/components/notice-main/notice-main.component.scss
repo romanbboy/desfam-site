@@ -1,0 +1,43 @@
+@import 'src/assets/styles/variables';
+
+.notice-main {
+  //display: none;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  max-width: 400px;
+  border-radius: 10px;
+  border: 1px solid $red;
+  background: lighten($red, 35);
+  padding: 10px;
+  opacity: .9;
+  color: $red;
+  font-size: 14px;
+
+  @media (max-width: 425px){
+    font-size: 12px;
+    padding: 7px;
+    right: 50%;
+    transform: translateX(50%);
+    text-align: center;
+    width: 300px;
+  }
+
+  &.success {
+    border: 1px solid darken($green, 25);
+    background: lighten($green, 30);
+    color: darken($green, 25);
+  }
+
+  &.warning {
+    border: 1px solid darken($yellow, 10);
+    background: lighten($yellow, 35);
+    color: darken($yellow, 20);
+  }
+
+  &.error {
+    border: 1px solid $red;
+    background: lighten($red, 38);
+    color: $red;
+  }
+}

@@ -11,7 +11,7 @@
       Настройки &nbsp; <button class="btn btn-tiny" (click)="settingsShow = true"><i class="fa fa-gears fa-2x icon-primary"></i></button>
     </div>
 
-    <ng-container *ngIf="settingsShow">
+    <ng-container *ngIf="settingsShow && !settingsTarget">
 
       <ng-container *ngIf="currentUser.id === (infoDatebook$ | async).creator">
         <div class="datebook__action datebook__action_small">
@@ -37,11 +37,11 @@
   </div>
 
 <!--  Настройки-->
-  <div class="component mb-5">
+  <div class="component mb-5" *ngIf="settingsTarget">
 
 <!--    Добавление нового участника-->
-    <form [formGroup]="addParticipantForm" class="form datebook__add-participant-form">
-      <ui-close class="datebook__close-add-participant" (click)="settingsTarget = null"></ui-close>
+    <form *ngIf="settingsTarget === 'addParticipant'" [formGroup]="addParticipantForm" (ngSubmit)="onAddParticipant()" class="form datebook__add-participant-form">
+      <ui-close class="datebook__close-add-participant" (click)="this.closeAddParticipant()"></ui-close>
       <div class="form__group">
         <h3>Добавить нового участника</h3>
         <div class="form__horizontal form__vertical-start form__nowrap">
@@ -50,7 +50,9 @@
             <app-field-notice [field]="addParticipantForm.get('email')"></app-field-notice>
             <app-notice *ngIf="settingsAddParticipant.notice" [notice]="settingsAddParticipant.notice" [type]="settingsAddParticipant.typeNotice" ></app-notice>
           </div> &nbsp;&nbsp;&nbsp;
-          <app-submit-button [classes]="['btn-tiny']" [disabled]="addParticipantForm.invalid">
+          <app-submit-button [classes]="['btn-tiny']"
+                             [isSubmitting]="settingsAddParticipant.isSubmitting"
+                             [disabled]="addParticipantForm.invalid || !settingsAddParticipant.user">
             <i class="fa fa-plus-square icon-primary"></i>
           </app-submit-button>
         </div>

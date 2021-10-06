@@ -2,6 +2,7 @@ import {UserInterface} from "../../shared/types/user.interface";
 
 export interface SettingsAddParticipantInterface {
   user?: UserInterface
-  notice?: string,
+  notice?: string
   typeNotice?: string
+  isSubmitting?: boolean
 }

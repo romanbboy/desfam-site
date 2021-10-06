@@ -1,0 +1,24 @@
+:host ::ng-deep .alert.p-toast {
+  max-width: 25rem;
+  width: auto;
+
+  @media (max-width: 425px){
+    right: 50%;
+    transform: translateX(50%);
+    width: 300px;
+  }
+
+  .p-toast-message {
+    border: none;
+  }
+
+  .p-toast-icon-close{
+    display: none;
+  }
+
+  .p-toast-message-content {
+    padding: .75rem;
+    justify-content: center;
+    text-align: center;
+  }
+}

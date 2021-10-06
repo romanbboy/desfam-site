@@ -18,6 +18,9 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptor} from "./shared/services/authinterceptor.service";
 import {NoticeModule} from "./shared/modules/notice/notice.module";
 import {UiModule} from "./shared/modules/ui/ui.module";
+import {MessageService} from "primeng/api";
+import {AlertModule} from "./shared/modules/alert/alert.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -25,6 +28,7 @@ import {UiModule} from "./shared/modules/ui/ui.module";
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     RouterModule,
     AppRoutingModule,
@@ -41,14 +45,16 @@ import {UiModule} from "./shared/modules/ui/ui.module";
     TopBarModule,
     SettingsModule,
     NoticeModule,
-    UiModule
+    UiModule,
+    AlertModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

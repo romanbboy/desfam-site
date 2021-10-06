@@ -10,6 +10,7 @@ require('dotenv').config({path: path.join(__dirname, '../.env')});
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 const datebookRouter = require('./routes/datebook');
+const invitationRouter = require('./routes/invitation');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cors());
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/datebooks', datebookRouter);
+app.use('/api/invitations', invitationRouter);
 
 // Скачивать файлы, для прода работает
 // p.s для дев качать так http://localhost:3000/files/.......
