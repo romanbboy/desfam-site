@@ -45,6 +45,20 @@
         i {color: darken($grey-dark, 15);}
       }
     }
+
+    &-danger {
+      color: $red;
+      &:hover {
+        color: darken($red, 15);
+      }
+    }
+  }
+
+  &-small {
+    font-size: 14px;
+    @media (max-width: 425px){
+      font-size: 12px;
+    }
   }
 }
 

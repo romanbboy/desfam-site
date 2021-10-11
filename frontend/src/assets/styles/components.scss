@@ -166,6 +166,44 @@
   }
 }
 
+.df-card {
+  background: #ffffff;
+  border-radius: 3px;
+  box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
+  padding: 8px;
+
+  @media (max-width: 425px){
+    width: 100%;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+
+  &__avatar {
+    padding-right: 15px;
+  }
+
+  &__info {
+    flex: 1;
+  }
+
+  &__username {
+    border-bottom: 1px solid $grey;
+    padding: 3px;
+    font-weight: 700;
+    text-align: right;
+  }
+
+  &__header-actions {
+    padding: 5px 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
 .skeleton {
   position: relative;
   padding: 30px;

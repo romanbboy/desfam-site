@@ -33,15 +33,27 @@ router.get('/getAll', checkToken, async (req, res) => {
 })
 
 router.get('/:id', checkToken, async (req, res) => {
-  const datebook = await Datebook.findById(req.params.id);
+  const datebook = await Datebook.findById(req.params.id).populate('participants', '-password');
 
   // Зайти в ежедневник может только пользователь в списке участников ежедневника
-  if (!datebook.participants.includes(req.user._id)){
+  if (!datebook.participants.find(el => el.id === req.user.id)){
     res.sendStatus(301);
     return;
   }
 
   res.status(200).json(datebook)
-})
+});
+
+// удаление участника
+router.delete('/:id_datebook/delete/participant/:id_participant', checkToken, async (req, res) => {
+  const datebook = await Datebook.findById(req.params.id_datebook);
+
+  if (datebook.creator.toString() === req.user.id) {
+    await Datebook.findByIdAndUpdate(req.params.id_datebook, { $pull: { 'participants': req.params.id_participant } }, {new: true});
+    res.status(200).json();
+  } else {
+    res.status(500).json('Ты не создатель ежедневника');
+  }
+});
 
 module.exports = router

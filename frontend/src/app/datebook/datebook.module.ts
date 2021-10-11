@@ -13,6 +13,8 @@ import {NoticeModule} from "../shared/modules/notice/notice.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import {FieldNoticeModule} from "../shared/modules/field-notice/field-notice.module";
 import {UserService} from "../shared/services/user.service";
+import {PicshowModule} from "../shared/modules/picshow/picshow.module";
+import {DeleteParticipantEffect} from "./store/effects/deleteParticipant.effect";
 
 const routes = [
   {
@@ -28,13 +30,15 @@ const routes = [
     StoreModule.forFeature('datebook', reducers),
     EffectsModule.forFeature([
       GetDatebookEffect,
+      DeleteParticipantEffect
     ]),
     HeadlineModule,
     NotepadModule,
     UiModule,
     NoticeModule,
     ReactiveFormsModule,
-    FieldNoticeModule
+    FieldNoticeModule,
+    PicshowModule
   ],
   declarations: [DatebookComponent],
   exports: [DatebookComponent],

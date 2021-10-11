@@ -19,9 +19,14 @@ export class DatebookService {
     return this.http.get<Array<DatebookInterface>>(url)
   }
 
-  get(id) {
+  get(id): Observable<DatebookInterface> {
     const url = `${environment.apiUrl}/datebooks/${id}`;
-    return this.http.get(url);
+    return this.http.get<DatebookInterface>(url);
+  }
+
+  deleteParticipant({datebook, participant}) {
+    const url = `${environment.apiUrl}/datebooks/${datebook.id}/delete/participant/${participant.id}`;
+    return this.http.delete(url);
   }
 
   constructor(private http: HttpClient) {

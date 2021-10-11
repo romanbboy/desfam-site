@@ -33,4 +33,16 @@
     top: 15px;
     right: 15px;
   }
+
+  &__remove-list-participants{
+    display: flex;
+    flex-wrap: wrap;
+
+    .df-card {
+      margin-right: 15px;
+      @media (max-width: 425px){
+        margin: 5px 0;
+      }
+    }
+  }
 }

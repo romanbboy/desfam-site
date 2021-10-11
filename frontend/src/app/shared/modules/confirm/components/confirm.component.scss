@@ -1,0 +1,16 @@
+:host ::ng-deep .p-dialog {
+  .p-button {
+    &:focus {
+      box-shadow: none;
+    }
+  }
+  .p-confirm-dialog-reject {
+    background-color: darken(#EE246D, 10);
+    border: 1px solid darken(#EE246D, 10);
+
+    &:hover{
+      background-color: darken(#EE246D, 15);
+      border: 1px solid darken(#EE246D, 10);
+    }
+  }
+}

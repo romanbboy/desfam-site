@@ -13,7 +13,7 @@
 
     <ng-container *ngIf="settingsShow && !settingsTarget">
 
-      <ng-container *ngIf="currentUser.id === (infoDatebook$ | async).creator">
+      <ng-container *ngIf="currentUser.id === infoDatebook.creator">
         <div class="datebook__action datebook__action_small">
           Добавить участника &nbsp; <button class="btn btn-tiny" (click)="settingsTarget = 'addParticipant'"><i class="fa fa-user-plus icon-success"></i></button>
         </div>
@@ -25,7 +25,7 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="currentUser.id !== (infoDatebook$ | async).creator">
+      <ng-container *ngIf="currentUser.id !== infoDatebook.creator">
         <div class="datebook__action datebook__action_small">
           Покинуть ежедневник &nbsp; <button class="btn btn-tiny"><i class="fa fa-sign-out icon-danger"></i></button>
         </div>
@@ -37,7 +37,7 @@
   </div>
 
 <!--  Настройки-->
-  <div class="component mb-5" *ngIf="settingsTarget">
+  <div class="component mb-5" > <!--*ngIf="settingsTarget"-->
 
 <!--    Добавление нового участника-->
     <form *ngIf="settingsTarget === 'addParticipant'" [formGroup]="addParticipantForm" (ngSubmit)="onAddParticipant()" class="form datebook__add-participant-form">
@@ -58,11 +58,42 @@
         </div>
       </div>
     </form>
+
+    <!--    Удаление участника-->
+    <ng-container >  <!--*ngIf="settingsTarget === 'removeParticipant'"-->
+      <h3>Удаление участников ежедневника "{{infoDatebook.title}}"</h3>
+
+      <ng-container *ngIf="infoDatebook.participants.length === 1">
+        <p class="mt-3">Ты - единственный участник этого ежедневника</p>
+      </ng-container>
+
+      <div class="datebook__remove-list-participants mt-3" *ngIf="infoDatebook.participants.length > 1">
+        <ng-container *ngFor="let participant of infoDatebook.participants">
+          <div class="df-card df-card_user" *ngIf="participant.id !== currentUser.id">
+            <div class="df-card__header">
+              <div class="df-card__avatar">
+                <app-picshow [picture]="participant.avatar"></app-picshow>
+              </div>
+              <div class="df-card__info">
+                <div class="df-card__username">{{participant.username}}</div>
+                <div class="df-card__header-actions">
+                  <button class="btn btn-tiny btn-tiny-danger btn-small"
+                          (click)="confirmRemove({datebook: infoDatebook, participant: participant})">
+                    Удалить
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+
   </div>
 
 
 <!--  Основной контент-->
-  <h2 *ngIf="(infoDatebook$ | async) as infoDatebook">
+  <h2 *ngIf="infoDatebook">
     <i class="fa fa-file-text-o"></i> &nbsp; Ежедневник "{{infoDatebook.title}}"
   </h2>
 

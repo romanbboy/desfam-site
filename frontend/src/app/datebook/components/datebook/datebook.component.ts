@@ -13,6 +13,9 @@ import {UserService} from "../../../shared/services/user.service";
 import {SettingsAddParticipantInterface} from "../../types/settingsAddParticipant.interface";
 import {InvitationService} from "../../../shared/services/invitation.service";
 import {AlertService} from "../../../shared/services/alert.service";
+import {ConfirmService} from "../../../shared/modules/confirm/services/confirm.service";
+import {DatebookService} from "../../../shared/services/datebook.service";
+import {deleteParticipantAction} from "../../store/actions/deleteParticipant.action";
 
 @Component({
   selector: 'app-datebook',
@@ -37,9 +40,11 @@ export class DatebookComponent implements OnInit, OnDestroy {
     private store: Store,
     private route: ActivatedRoute,
     private fb: FormBuilder,
+    private datebookService: DatebookService,
     private userService: UserService,
     private invitationService: InvitationService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private confirmService: ConfirmService
   ) {}
 
   ngOnInit(): void {
@@ -104,7 +109,7 @@ export class DatebookComponent implements OnInit, OnDestroy {
       let notice = user ? `${user.username} найден` : 'Пользователь не найден';
       let typeNotice = user ? 'success' : 'error';
 
-      if (user && this.infoDatebook.participants.includes(user.id)) {
+      if (user && this.infoDatebook.participants.find(el => el.id === user.id)) {
         participant = null;
         notice = `${user.username} уже участник этого ежедневника`
         typeNotice = 'error';
@@ -143,6 +148,16 @@ export class DatebookComponent implements OnInit, OnDestroy {
           this.settingsAddParticipant = {...this.settingsAddParticipant, isSubmitting: false};
         })
     }
+  }
+
+  // Блок удаления участника
+  confirmRemove({datebook, participant}): void {
+    this.confirmService.confirm({
+      msg: `Убрать ${participant.username} из ежедневника?`,
+      accept: () => {
+        this.store.dispatch(deleteParticipantAction({datebook, participant}));
+      }
+    });
   }
 
 }

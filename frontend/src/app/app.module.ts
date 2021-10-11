@@ -18,9 +18,10 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptor} from "./shared/services/authinterceptor.service";
 import {NoticeModule} from "./shared/modules/notice/notice.module";
 import {UiModule} from "./shared/modules/ui/ui.module";
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 import {AlertModule} from "./shared/modules/alert/alert.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ConfirmModule} from "./shared/modules/confirm/confirm.module";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     SettingsModule,
     NoticeModule,
     UiModule,
-    AlertModule
+    AlertModule,
+    ConfirmModule
   ],
   providers: [
     {
@@ -54,7 +56,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
       useClass: AuthInterceptor,
       multi: true
     },
-    MessageService
+    MessageService,
+    ConfirmationService
   ],
   bootstrap: [AppComponent]
 })
