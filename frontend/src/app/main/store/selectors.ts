@@ -7,19 +7,24 @@ const mainFeatureSelector = createFeatureSelector<AppStateInterface, MainStateIn
 export const showAddNewDatebookSelector = createSelector(
   mainFeatureSelector,
   (state: MainStateInterface) => state.showAddNewDatebook
-)
+);
 
 export const errorAddNewDatebookSelector = createSelector(
   mainFeatureSelector,
   (state: MainStateInterface) => state.errorAddNewDatebook
-)
+);
 
 export const isSubmittingAddNewDatebookSelector = createSelector(
   mainFeatureSelector,
   (state: MainStateInterface) => state.isSubmittingAddNewDatebook
-)
+);
 
 export const datebookListSelector = createSelector(
   mainFeatureSelector,
   (state: MainStateInterface) => state.datebookList
+);
+
+export const invitationsSelector = createSelector(
+  mainFeatureSelector,
+  (state: MainStateInterface) => state.invitations
 )

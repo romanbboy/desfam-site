@@ -1,0 +1,6 @@
+// fozt size
+@for $i from 10 through 30 {
+  .fz-#{$i} {
+    font-size: #{$i}px !important;
+  }
+}

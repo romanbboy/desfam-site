@@ -1,0 +1,31 @@
+.flex {
+  display: flex;
+
+  &_wrap {
+    flex-wrap: wrap;
+  }
+
+  &_1 {
+    flex: 1;
+  }
+
+  &_inline {
+    display: inline-flex;
+  }
+
+  &_jc{
+    &-sb {
+      &--xs {
+        justify-content: space-between;
+      }
+    }
+  }
+
+  &_ai{
+    &-c{
+      &--xs {
+        align-items: center;
+      }
+    }
+  }
+}

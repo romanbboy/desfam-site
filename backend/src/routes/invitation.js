@@ -3,6 +3,7 @@ const {Router} = require('express');
 const checkToken = require('../middleware/checkToken');
 
 const Invitation = require('../models/invitation-model');
+const Datebook = require('../models/datebook-model');
 
 const router = Router();
 
@@ -27,6 +28,42 @@ router.post('/', checkToken, async (req, res) => {
       else res.status(201).json(`${referral.username} приглашен`)
     })
   }
-})
+});
+
+router.get('/', checkToken, async (req, res) => {
+  const user = req.user;
+
+  const invitations = await Invitation.find({referral: user.id}).populate('referrer referral target');
+  res.status(200).json(invitations);
+});
+
+router.get('/:id/accept', checkToken, async (req, res) => {
+  const user = req.user;
+  const invitation = await Invitation.findOne({_id: req.params.id, referral: user.id});
+  
+  if (invitation) {
+    const datebook = await Datebook.findById(invitation.target);
+
+    if (datebook) {
+      if (!datebook.participants.includes(user.id)) {
+        const updatedDatebook = await Datebook.findByIdAndUpdate(invitation.target, {$addToSet: { participants: user.id }}, {new: true});
+        await Invitation.findByIdAndDelete(req.params.id);
+        res.status(200).json(updatedDatebook);
+      } else {
+        res.status(500).json('Ты уже являешься участником ежедневника');
+      }
+    } else {
+      res.status(500).json('Задачник не найден');
+    }
+  } else {
+    res.status(500).json('Не твое приглашение');
+  }
+});
+
+router.delete('/:id/reject', checkToken, async (req, res) => {
+  const user = req.user;
+  await Invitation.findOneAndDelete({_id: req.params.id, referral: user.id});
+  res.status(200).json('Предложение отклонено');
+});
 
 module.exports = router

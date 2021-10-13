@@ -2,7 +2,7 @@ import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/c
 import {select, Store} from "@ngrx/store";
 import {showAddNewDatebookAction} from "../../store/actions/sync.action";
 import {
-  datebookListSelector, errorAddNewDatebookSelector,
+  datebookListSelector, errorAddNewDatebookSelector, invitationsSelector,
   isSubmittingAddNewDatebookSelector,
   showAddNewDatebookSelector
 } from "../../store/selectors";
@@ -16,6 +16,13 @@ import {CurrentUserInterface} from "../../../shared/types/currentUser.interface"
 import {currentUserSelector} from "../../../auth/store/selectors";
 import {filter} from "rxjs/operators";
 import {Actions, ofType} from "@ngrx/effects";
+import {InviteInterface} from "../../../shared/types/invite.interface";
+import {getAllInvitationAction} from "../../store/actions/getAllInvitation.action";
+import {
+  acceptInvitationAction, acceptInvitationFailureAction,
+  acceptInvitationSuccessAction,
+  rejectInvitationAction, rejectInvitationFailureAction, rejectInvitationSuccessAction
+} from "../../store/actions/invitation.action";
 
 @Component({
   selector: 'app-main',
@@ -28,9 +35,13 @@ export class MainComponent implements OnInit, OnDestroy {
   errorAddNewDatebook$: Observable<NoticeType>
   isSubmittingAddNewDatebook$: Observable<boolean>
   datebookList$: Observable<Array<DatebookInterface>>
+  invitations$: Observable<InviteInterface[]>
   currentUser: CurrentUserInterface
-  currentUserSubscription: Subscription
-  addDatebookSuccessSubscription: Subscription
+
+  invitations: Array<InviteInterface>
+  submitInvite: string | null;
+
+  private subscription: Subscription = new Subscription();
 
   constructor(private store: Store, private fb: FormBuilder, private actions: Actions) { }
 
@@ -41,8 +52,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.currentUserSubscription.unsubscribe();
-    this.addDatebookSuccessSubscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   initValues(): void {
@@ -50,6 +60,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.errorAddNewDatebook$ = this.store.pipe(select(errorAddNewDatebookSelector));
     this.isSubmittingAddNewDatebook$ = this.store.pipe(select(isSubmittingAddNewDatebookSelector));
     this.datebookList$ = this.store.pipe(select(datebookListSelector));
+    this.invitations$ = this.store.pipe(select(invitationsSelector));
   }
 
   initForm(): void {
@@ -59,20 +70,38 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   initListeners(): void {
-    this.currentUserSubscription = this.store
-      .pipe(select(currentUserSelector), filter(Boolean))
-      .subscribe((currentUser: CurrentUserInterface) => {
-        this.currentUser = currentUser;
-        this.fetchData();
-      })
+    this.subscription.add(
+      this.store
+        .pipe(select(currentUserSelector), filter(Boolean))
+        .subscribe((currentUser: CurrentUserInterface) => {
+          this.currentUser = currentUser;
+          this.fetchData();
+        })
+    );
 
-    this.addDatebookSuccessSubscription = this.actions
-      .pipe(ofType(addDatebookSuccessAction))
-      .subscribe(() => this.form.reset())
+    this.subscription.add(
+      this.actions
+        .pipe(ofType(addDatebookSuccessAction))
+        .subscribe(() => this.form.reset())
+    );
+
+    this.subscription.add(
+      this.actions
+        .pipe(
+          ofType(
+            acceptInvitationSuccessAction,
+            acceptInvitationFailureAction,
+            rejectInvitationSuccessAction,
+            rejectInvitationFailureAction
+          )
+        )
+        .subscribe(() => this.submitInvite = null)
+    );
   }
 
   fetchData(): void {
-    this.store.dispatch(getAllDatebooksAction())
+    this.store.dispatch(getAllDatebooksAction());
+    this.store.dispatch(getAllInvitationAction());
   }
 
   getField (field): AbstractControl {
@@ -87,6 +116,17 @@ export class MainComponent implements OnInit, OnDestroy {
     if (this.form.valid) {
       this.store.dispatch(addDatebookAction({datebook: this.form.value}))
     }
+  }
+
+  // Приглашение в ежедневник
+  acceptInvitation(invitation: InviteInterface): void {
+    this.submitInvite = invitation.id;
+    this.store.dispatch(acceptInvitationAction({invitation}));
+  }
+
+  rejectInvitation(invitation: InviteInterface): void {
+    this.submitInvite = invitation.id;
+    this.store.dispatch(rejectInvitationAction({invitation}));
   }
 
 }

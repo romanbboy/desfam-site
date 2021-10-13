@@ -6,6 +6,21 @@
   </ng-container>
 
   <ng-container *ngIf="currentUser">
+
+    <ng-container *ngIf="(invitations$ | async) as invitations">
+      <app-msg *ngFor="let invitation of invitations" [severity]="'info'">
+        <div class="flex flex_1 flex_wrap flex_jc-sb--xs flex_ai-c--xs">
+          <div>{{invitation.referrer.username}} приглашает в ежедневник <b>"{{invitation.target.title}}"</b></div>
+
+          <div *ngIf="submitInvite !== invitation.id" class="flex flex_inline mt-xs-2 mt-md-0">
+            <button class="btn btn-success fz-14" (click)="acceptInvitation(invitation)">Принять</button> &nbsp;&nbsp;&nbsp;
+            <button class="btn btn-tiny btn-tiny-danger fz-14" (click)="rejectInvitation(invitation)">Отклонить</button>
+          </div>
+          <i *ngIf="submitInvite === invitation.id" class="fa fa-spinner fa-spin fa-fw"></i>
+        </div>
+      </app-msg>
+    </ng-container>
+
     <div class="main__actions" *ngIf="!(showAddNewDatebook$ | async)">
       <div class="main__action">
         Добавить новый задачник &nbsp; <button class="btn btn-tiny" (click)="onShowAddNewDatebook()"><i class="fa fa-plus-square fa-2x icon-primary"></i></button>
