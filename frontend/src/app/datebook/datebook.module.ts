@@ -15,6 +15,7 @@ import {FieldNoticeModule} from "../shared/modules/field-notice/field-notice.mod
 import {UserService} from "../shared/services/user.service";
 import {PicshowModule} from "../shared/modules/picshow/picshow.module";
 import {DeleteParticipantEffect} from "./store/effects/deleteParticipant.effect";
+import {EscapeDatebookEffect} from "./store/effects/escapeDatebook.effect";
 
 const routes = [
   {
@@ -30,7 +31,8 @@ const routes = [
     StoreModule.forFeature('datebook', reducers),
     EffectsModule.forFeature([
       GetDatebookEffect,
-      DeleteParticipantEffect
+      DeleteParticipantEffect,
+      EscapeDatebookEffect
     ]),
     HeadlineModule,
     NotepadModule,

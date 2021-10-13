@@ -56,4 +56,17 @@ router.delete('/:id_datebook/delete/participant/:id_participant', checkToken, as
   }
 });
 
+// покинуть задачник
+router.get('/:id/escape', checkToken, async (req, res) => {
+  const user = req.user;
+  const datebook = await Datebook.findById(req.params.id);
+  
+  if (datebook.participants.includes(user.id)) {
+    await Datebook.findByIdAndUpdate(req.params.id, { $pull: { 'participants': user.id } });
+    res.status(200).json();
+  } else {
+    res.status(400).json('Ты не участник задачника');
+  }
+});
+
 module.exports = router

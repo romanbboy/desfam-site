@@ -16,6 +16,7 @@ import {AlertService} from "../../../shared/services/alert.service";
 import {ConfirmService} from "../../../shared/modules/confirm/services/confirm.service";
 import {DatebookService} from "../../../shared/services/datebook.service";
 import {deleteParticipantAction} from "../../store/actions/deleteParticipant.action";
+import {escapeDatebookAction} from "../../store/actions/escapeDatebook.action";
 
 @Component({
   selector: 'app-datebook',
@@ -160,4 +161,13 @@ export class DatebookComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Блок Покинуть ежедневник
+  confirmEscape(datebook: DatebookInterface): void {
+    this.confirmService.confirm({
+      msg: `Точно покинуть задачник?`,
+      accept: () => {
+        this.store.dispatch(escapeDatebookAction({datebook}));
+      }
+    });
+  }
 }

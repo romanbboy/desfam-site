@@ -27,7 +27,7 @@
 
       <ng-container *ngIf="currentUser.id !== infoDatebook.creator">
         <div class="datebook__action datebook__action_small">
-          Покинуть ежедневник &nbsp; <button class="btn btn-tiny"><i class="fa fa-sign-out icon-danger"></i></button>
+          Покинуть ежедневник &nbsp; <button class="btn btn-tiny" (click)="confirmEscape(infoDatebook)"><i class="fa fa-sign-out icon-danger"></i></button>
         </div>
         <div class="datebook__action datebook__action_small">
           Закрыть настройки &nbsp; <button class="btn btn-tiny" (click)="closeSettings()"><i class="fa fa-times-circle-o icon-neutral"></i></button>

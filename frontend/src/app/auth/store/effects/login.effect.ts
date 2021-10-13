@@ -29,13 +29,13 @@ export class LoginEffect {
   )
 
   loginAfterSubmit$ = createEffect(() =>
-      this.actions$.pipe(
-        ofType(loginSuccessAction),
-        tap(() => {
-          this.router.navigateByUrl('/')
-        })
-      ),
-    {dispatch: false}
+    this.actions$.pipe(
+      ofType(loginSuccessAction),
+      tap(() => {
+        this.router.navigateByUrl('/')
+      })
+    ),
+  {dispatch: false}
   )
 
   constructor(private actions$: Actions, private authService: AuthService, private router: Router) {

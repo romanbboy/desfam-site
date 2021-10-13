@@ -29,6 +29,11 @@ export class DatebookService {
     return this.http.delete(url);
   }
 
+  escape(datebook): Observable<string> {
+    const url = `${environment.apiUrl}/datebooks/${datebook.id}/escape`;
+    return this.http.get<string>(url);
+  }
+
   constructor(private http: HttpClient) {
   }
 }
