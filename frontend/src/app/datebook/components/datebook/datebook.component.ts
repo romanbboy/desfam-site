@@ -17,6 +17,7 @@ import {ConfirmService} from "../../../shared/modules/confirm/services/confirm.s
 import {DatebookService} from "../../../shared/services/datebook.service";
 import {deleteParticipantAction} from "../../store/actions/deleteParticipant.action";
 import {escapeDatebookAction} from "../../store/actions/escapeDatebook.action";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-datebook',

@@ -25,6 +25,7 @@
     "@ngrx/store-devtools": "^11.1.1",
     "angular-file-uploader": "^7.0.3",
     "lightgallery": "^2.1.8",
+    "moment": "^2.29.1",
     "primeicons": "^4.1.0",
     "primeng": "^11.2.3",
     "query-string": "^7.0.1",

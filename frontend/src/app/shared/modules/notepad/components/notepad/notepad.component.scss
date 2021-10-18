@@ -78,7 +78,9 @@
   }
 
   &__settings-block {
+    position: relative;
     border-top: 1px solid rgba(29, 139, 216, .4);
+    padding-top: 15px;
 
     p {
       font-weight: 600;
@@ -87,24 +89,31 @@
 
     .wrap-block {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       margin-top: 10px;
 
-      button {
+      ::ng-deep button {
         margin-left: 10px;
+        line-height: 36px;
 
         i {
           font-size: 16px;
-          color: darken($blue, 15);
         }
       }
 
-      input {
-        flex: 1
+      .form-group {
+        flex: 1;
+        input {width: 100%;}
       }
     }
   }
   &__add-new-issue-block {
     padding: 15px 0;
+  }
+
+  &__close-settings-block {
+    position: absolute;
+    top: 17px;
+    right: 0;
   }
 }

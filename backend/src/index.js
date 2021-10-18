@@ -11,6 +11,7 @@ const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 const datebookRouter = require('./routes/datebook');
 const invitationRouter = require('./routes/invitation');
+const issueRouter = require('./routes/issue');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/datebooks', datebookRouter);
 app.use('/api/invitations', invitationRouter);
+app.use('/api/issues', issueRouter);
 
 // Скачивать файлы, для прода работает
 // p.s для дев качать так http://localhost:3000/files/.......

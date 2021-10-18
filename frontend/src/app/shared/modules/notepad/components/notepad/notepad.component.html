@@ -1,47 +1,57 @@
 <div class="notepad">
   <div class="notepad__head">
     <div class="notepad__avatar">
-      <app-picshow></app-picshow>
+      <app-picshow [picture]="user.avatar"></app-picshow>
     </div>
     <div class="notepad__user-info">
-      <div class="notepad__username">Мороз Роман Игоревич</div>
-      <div class="notepad__user-addition">Front-end разработчик</div>
+      <div class="notepad__username">{{user.username}}</div>
+      <div class="notepad__user-addition" *ngIf="user.position">{{user.position}}</div>
     </div>
   </div>
 
   <div class="notepad__plan">
-<!--    <div class="notepad__plan-empty">У лентяя нет дел на сегодня</div>-->
-    <div class="notepad__list">
+    <div *ngIf="!issues.length" class="notepad__plan-empty">У лентяя нет дел на сегодня</div>
+    <div *ngIf="issues.length" class="notepad__list" >
       <app-issue></app-issue>
-      <app-issue></app-issue>
-      <!--<app-issue></app-issue>
-      <app-issue></app-issue>
-      <app-issue></app-issue>-->
     </div>
   </div>
 
   <div class="notepad__settings">
-    <div class="notepad__settings-actions">
-      <button class="btn btn-tiny notepad__add-issue" title="Добавить новую задачу">
-        <i class="fa fa-plus-circle"></i>
-      </button>
-    </div>
-    <div class="notepad__settings-block">
-      <div class="notepad__add-new-issue-block">
-        <p>Добавить новую задачу</p>
-        <div class="wrap-block">
-          <input type="text" placeholder="Описание задачи" />
-          <button class="btn btn-tiny" title="Добавить задачу"><i class="fa fa-plus"></i></button>
-        </div>
+    <ng-container *ngIf="!showSettings">
+      <div class="notepad__settings-actions">
+        <button class="btn btn-tiny notepad__add-issue" title="Добавить новую задачу" (click)="showSettings = 'addIssue'">
+          <i class="fa fa-plus-circle"></i>
+        </button>
       </div>
+    </ng-container>
 
-      <div class="notepad__edit-issue-block">
-        <p>Редактируем задачу</p>
-        <div class="wrap-block">
-          <input type="text" placeholder="Описание задачи" />
-          <button class="btn btn-tiny" title="Редактировать задачу"><i class="fa fa-pencil"></i></button>
+    <ng-container *ngIf="showSettings">
+      <div class="notepad__settings-block">
+        <ui-close class="notepad__close-settings-block" (click)="showSettings = ''" ></ui-close>
+
+        <form [formGroup]="addNewIssueForm" (ngSubmit)="onAddNewIssue()" *ngIf="showSettings === 'addIssue'" class="notepad__add-new-issue-block">
+          <p>Добавить новую задачу</p>
+          <div class="wrap-block">
+            <div class="form-group">
+              <input type="text" placeholder="Описание задачи" formControlName="description" />
+              <app-field-notice [field]="addNewIssueForm.get('description')"></app-field-notice>
+            </div>
+            <app-submit-button [classes]="['btn-tiny btn-tiny-dark-primary']"
+                               [disabled]="addNewIssueForm.invalid || isSubmittingAddNewIssue"
+                               [isSubmitting]="isSubmittingAddNewIssue">
+              <i class="fa fa-plus"></i>
+            </app-submit-button>
+          </div>
+        </form>
+
+        <div *ngIf="showSettings === 'editIssue'" class="notepad__edit-issue-block">
+          <p>Редактируем задачу</p>
+          <div class="wrap-block">
+            <input type="text" placeholder="Описание задачи" />
+            <button class="btn btn-tiny" title="Редактировать задачу"><i class="fa fa-pencil"></i></button>
+          </div>
         </div>
       </div>
-    </div>
+    </ng-container>
   </div>
 </div>

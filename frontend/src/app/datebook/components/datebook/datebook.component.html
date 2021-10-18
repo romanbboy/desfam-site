@@ -1,11 +1,4 @@
 <div class="datebook" *ngIf="(currentUser$ | async) as currentUser">
-
-  <div>
-    settingsShow - {{settingsShow}} <br>
-    settingsTarget - {{settingsTarget}} <br>
-    settingsAddParticipant - {{settingsAddParticipant | json}}
-  </div>
-
   <div class="datebook__actions">
     <div class="datebook__action" *ngIf="!settingsShow">
       Настройки &nbsp; <button class="btn btn-tiny" (click)="settingsShow = true"><i class="fa fa-gears fa-2x icon-primary"></i></button>
@@ -37,7 +30,7 @@
   </div>
 
 <!--  Настройки-->
-  <div class="component mb-5" > <!--*ngIf="settingsTarget"-->
+  <div class="component mb-5" *ngIf="settingsTarget">
 
 <!--    Добавление нового участника-->
     <form *ngIf="settingsTarget === 'addParticipant'" [formGroup]="addParticipantForm" (ngSubmit)="onAddParticipant()" class="form datebook__add-participant-form">
@@ -60,7 +53,8 @@
     </form>
 
     <!--    Удаление участника-->
-    <ng-container >  <!--*ngIf="settingsTarget === 'removeParticipant'"-->
+    <ng-container *ngIf="settingsTarget === 'removeParticipant'">
+      <ui-close class="datebook__close-remove-participant" (click)="this.closeAddParticipant()"></ui-close>
       <h3>Удаление участников ежедневника "{{infoDatebook.title}}"</h3>
 
       <ng-container *ngIf="infoDatebook.participants.length === 1">
@@ -93,15 +87,12 @@
 
 
 <!--  Основной контент-->
-  <h2 *ngIf="infoDatebook">
-    <i class="fa fa-file-text-o"></i> &nbsp; Ежедневник "{{infoDatebook.title}}"
-  </h2>
+  <h2 *ngIf="infoDatebook">Ежедневник "{{infoDatebook.title}}"</h2>
 
-  <!--<div class="datebook__day">
+  <div class="datebook__day datebook__day_today">
     <app-headline [date]="'12.03.2021'"></app-headline>
     <div class="notepad-list">
-      <app-notepad></app-notepad>
-      <app-notepad></app-notepad>
+      <app-notepad [user]="currentUser" [datebook]="infoDatebook" [issues]="[]"></app-notepad>
     </div>
-  </div>-->
+  </div>
 </div>
