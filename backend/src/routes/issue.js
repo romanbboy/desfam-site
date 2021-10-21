@@ -61,7 +61,7 @@ router.put('/:id/status', checkToken, async (req, res) => {
   }
 });
 
-// status
+// delete
 router.delete('/:id', checkToken, async (req, res) => {
   const user = req.user;
 
@@ -72,6 +72,20 @@ router.delete('/:id', checkToken, async (req, res) => {
     res.status(200).json();
   } else {
     res.status(400).json('Ты не можешь удалить эту задачу');
+  }
+});
+
+// edit
+router.put('/:id', checkToken, async (req, res) => {
+  const user = req.user;
+
+  const issue = await Issue.findById(req.params.id);
+
+  if (issue.creator.toString() === user.id) {
+    const updatedIssue = await Issue.findByIdAndUpdate(req.params.id, {content: req.body.content}, {new: true}).populate('creator datebook target');
+    res.status(200).json(updatedIssue);
+  } else {
+    res.status(400).json('Ты не можешь редактировать эту задачу');
   }
 });
 

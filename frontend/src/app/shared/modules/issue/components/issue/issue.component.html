@@ -14,7 +14,7 @@
     <button *ngIf="issue.status" (click)="changeStatus(issue)" class="btn btn-tiny issue__set issue-cancel">
       <i class="fa fa-undo fa-fw"></i> Не готово
     </button>
-    <button class="btn btn-tiny issue__set issue-edit">
+    <button class="btn btn-tiny issue__set issue-edit" (click)="showEditIssueNotepad('editIssue', issue)" >
       <i class="fa fa-edit fa-fw"></i> Редактировать
     </button>
     <button (click)="delete(issue)" class="btn btn-tiny issue__set issue-delete">

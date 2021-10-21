@@ -11,7 +11,7 @@ import {
   changeStatusSuccessAction,
   deleteIssueAction,
   deleteIssueFailureAction,
-  deleteIssueSuccessAction
+  deleteIssueSuccessAction, editIssueAction, editIssueFailureAction, editIssueSuccessAction
 } from "../actions/issue.action";
 import {IssueFullInterface, IssueInterface} from "../../../../types/issue.interface";
 import {AlertService} from "../../../../services/alert.service";
@@ -68,6 +68,24 @@ export class IssueEffect {
           catchError((errors: HttpErrorResponse) => {
             this.alertService.error(errors.error)
             return of(deleteIssueFailureAction())
+          })
+        )
+      })
+    )
+  );
+
+  editIssue$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(editIssueAction),
+      switchMap(({content, issue}) => {
+        return this.issueService.edit({issue, content}).pipe(
+          map((issue: IssueFullInterface) => {
+            return editIssueSuccessAction({issue});
+          }),
+
+          catchError((errors: HttpErrorResponse) => {
+            this.alertService.error(errors.error)
+            return of(editIssueFailureAction())
           })
         )
       })

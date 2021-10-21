@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewRef} from "@angular/core";
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewRef} from "@angular/core";
 import {IssueFullInterface, IssueInterface} from "../../../../types/issue.interface";
 import {Store} from "@ngrx/store";
 import {changeStatusAction, deleteIssueAction} from "../../store/actions/issue.action";
@@ -10,6 +10,7 @@ import {changeStatusAction, deleteIssueAction} from "../../store/actions/issue.a
 })
 export class IssueComponent implements OnInit, OnDestroy{
   @Input() issue: IssueFullInterface
+  @Output('setEditSettings') setEditSettingsEvent = new EventEmitter()
   @ViewChild('refIssue') refIssue: ElementRef
 
   showSettings: boolean = false
@@ -37,5 +38,10 @@ export class IssueComponent implements OnInit, OnDestroy{
 
   delete(issue: IssueFullInterface): void {
     this.store.dispatch(deleteIssueAction({issue}))
+  }
+
+  showEditIssueNotepad(setting: string, issue: IssueFullInterface): void {
+    this.setEditSettingsEvent.emit({setting, issue});
+    this.showSettings = false;
   }
 }

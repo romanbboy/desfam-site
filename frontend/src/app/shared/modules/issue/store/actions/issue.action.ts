@@ -42,3 +42,17 @@ export const deleteIssueSuccessAction = createAction(
 );
 
 export const deleteIssueFailureAction = createAction('[Issue] DELETE_ISSUE_FAILURE');
+
+
+// edit issue
+export const editIssueAction = createAction(
+  '[Issue] EDIT_ISSUE',
+  props<{content: string, issue: IssueFullInterface}>()
+);
+
+export const editIssueSuccessAction = createAction(
+  '[Issue] EDIT_ISSUE_SUCCESS',
+  props<{issue: IssueFullInterface}>()
+);
+
+export const editIssueFailureAction = createAction('[Issue] EDIT_ISSUE_FAILURE');

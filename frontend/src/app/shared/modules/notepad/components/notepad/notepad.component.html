@@ -14,6 +14,7 @@
     <div *ngIf="issues.length" class="notepad__list" >
       <app-issue *ngFor="let issue of issues"
                  [issue]="issue"
+                 (setEditSettings)="setShowEditSettings($event)"
       ></app-issue>
     </div>
   </div>
@@ -21,7 +22,7 @@
   <div class="notepad__settings">
     <ng-container *ngIf="!showSettings">
       <div class="notepad__settings-actions">
-        <button class="btn btn-tiny notepad__add-issue" title="Добавить новую задачу" (click)="showSettings = 'addIssue'">
+        <button class="btn btn-tiny notepad__add-issue" title="Добавить новую задачу" (click)="setShowAddNewIssueSettings()">
           <i class="fa fa-plus-circle"></i>
         </button>
       </div>
@@ -29,13 +30,13 @@
 
     <ng-container *ngIf="showSettings">
       <div class="notepad__settings-block">
-        <ui-close class="notepad__close-settings-block" (click)="showSettings = ''" ></ui-close>
+        <ui-close class="notepad__close-settings-block" (click)="closeSettingsBlock()" ></ui-close>
 
         <form [formGroup]="addNewIssueForm" (ngSubmit)="onAddNewIssue()" *ngIf="showSettings === 'addIssue'" class="notepad__add-new-issue-block">
           <p>Добавить новую задачу</p>
           <div class="wrap-block">
             <div class="form-group">
-              <input type="text" placeholder="Описание задачи" formControlName="description" />
+              <input type="text" placeholder="Описание задачи" formControlName="description" #refAddNewIssue />
               <app-field-notice [field]="addNewIssueForm.get('description')"></app-field-notice>
             </div>
             <app-submit-button [classes]="['btn-tiny btn-tiny-dark-primary']"
@@ -46,13 +47,20 @@
           </div>
         </form>
 
-        <div *ngIf="showSettings === 'editIssue'" class="notepad__edit-issue-block">
+        <form *ngIf="showSettings === 'editIssue'" [formGroup]="editIssueForm" (ngSubmit)="editIssue()" class="notepad__edit-issue-block">
           <p>Редактируем задачу</p>
           <div class="wrap-block">
-            <input type="text" placeholder="Описание задачи" />
-            <button class="btn btn-tiny" title="Редактировать задачу"><i class="fa fa-pencil"></i></button>
+            <div class="form-group">
+              <input type="text" placeholder="Описание задачи" formControlName="description" #refEdit />
+              <app-field-notice [field]="editIssueForm.get('description')"></app-field-notice>
+            </div>
+            <app-submit-button [classes]="['btn-tiny btn-tiny-dark-primary']"
+                               [disabled]="editIssueForm.invalid || isSubmittingEditIssue"
+                               [isSubmitting]="isSubmittingEditIssue">
+              <i class="fa fa-pencil"></i>
+            </app-submit-button>
           </div>
-        </div>
+        </form>
       </div>
     </ng-container>
   </div>

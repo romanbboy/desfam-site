@@ -31,5 +31,10 @@ export class IssueService {
     return this.http.delete<any>(url)
   }
 
+  edit(data: {issue: IssueFullInterface, content: string}): Observable<IssueFullInterface> {
+    const url = `${environment.apiUrl}/issues/${data.issue.id}`
+    return this.http.put<IssueFullInterface>(url, {content: data.content})
+  }
+
   constructor(private http: HttpClient) { }
 }

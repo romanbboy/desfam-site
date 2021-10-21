@@ -8,7 +8,7 @@ import {getIssuesSuccessAction} from "./actions/getIssues.action";
 import {
   addNewIssueSuccessAction,
   changeStatusSuccessAction,
-  deleteIssueSuccessAction
+  deleteIssueSuccessAction, editIssueSuccessAction
 } from "../../shared/modules/issue/store/actions/issue.action";
 
 const initDatebookState: DatebookStateInterface = {
@@ -61,6 +61,15 @@ const datebookReducer = createReducer(
     issues: [...state.issues].map(el => {
       let issue = {...el};
       if (issue.id === action.issue.id) issue.status = action.issue.status;
+      return issue;
+    })
+  })),
+
+  on(editIssueSuccessAction, (state, action): DatebookStateInterface => ({
+    ...state,
+    issues: state.issues.map(el => {
+      let issue = {...el};
+      if (issue.id === action.issue.id) issue.content = action.issue.content;
       return issue;
     })
   })),
