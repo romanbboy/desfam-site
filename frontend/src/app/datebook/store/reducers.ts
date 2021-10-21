@@ -4,9 +4,16 @@ import {getDatebookSuccessAction} from "./actions/getDatebook.action";
 import {routerNavigationAction} from "@ngrx/router-store";
 import {environment} from "../../../environments/environment";
 import {deleteParticipantSuccessAction} from "./actions/deleteParticipant.action";
+import {getIssuesSuccessAction} from "./actions/getIssues.action";
+import {
+  addNewIssueSuccessAction,
+  changeStatusSuccessAction,
+  deleteIssueSuccessAction
+} from "../../shared/modules/issue/store/actions/issue.action";
 
 const initDatebookState: DatebookStateInterface = {
-  info: null
+  info: null,
+  issues: []
 }
 
 const datebookReducer = createReducer(
@@ -26,6 +33,41 @@ const datebookReducer = createReducer(
       ...state.info,
       participants: state.info.participants.filter(el => el.id !== action.participant.id)
     }
+  })),
+
+  on(getIssuesSuccessAction, (state, action): DatebookStateInterface => {
+
+    let issues = action.issues.map(issue => {
+      let creator = issue.creator;
+      let target = issue.target;
+      if (!environment.production) {
+        if (creator.avatar) creator = {...creator, avatar: `${environment.devUrl}${creator.avatar}`};
+        if (target.avatar) target = {...target, avatar: `${environment.devUrl}${target.avatar}`};
+      }
+
+      return {...issue, creator, target};
+    })
+
+    return {...state, issues}
+  }),
+
+  on(addNewIssueSuccessAction, (state, action): DatebookStateInterface => ({
+    ...state,
+    issues: [...state.issues, action.issue]
+  })),
+
+  on(changeStatusSuccessAction, (state, action): DatebookStateInterface => ({
+    ...state,
+    issues: [...state.issues].map(el => {
+      let issue = {...el};
+      if (issue.id === action.issue.id) issue.status = action.issue.status;
+      return issue;
+    })
+  })),
+
+  on(deleteIssueSuccessAction, (state, action): DatebookStateInterface => ({
+    ...state,
+    issues: [...state.issues].filter(el => el.id !== action.issue.id)
   })),
 
   on(routerNavigationAction, (): DatebookStateInterface => initDatebookState)

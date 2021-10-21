@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {UserInterface} from "../../../../types/user.interface";
-import {IssueInterface} from "../../../../types/issue.interface";
+import {IssueFullInterface} from "../../../../types/issue.interface";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
 import {DatebookInterface} from "../../../../types/datebook.interface";
@@ -15,7 +15,7 @@ import {IssueRequestInterface} from "../../../issue/types/issueRequest.interface
 export class NotepadComponent implements OnInit {
   @Input() user: UserInterface;
   @Input() datebook: DatebookInterface;
-  @Input() issues: IssueInterface[];
+  @Input() issues: IssueFullInterface[];
 
   addNewIssueForm: FormGroup;
   isSubmittingAddNewIssue: boolean = false;

@@ -89,10 +89,13 @@
 <!--  Основной контент-->
   <h2 *ngIf="infoDatebook">Ежедневник "{{infoDatebook.title}}"</h2>
 
-  <div class="datebook__day datebook__day_today">
-    <app-headline [date]="'12.03.2021'"></app-headline>
+  <app-headline [date]="headlineDate"></app-headline>
+  <div class="datebook__day" *ngIf="usersIssues.length">
     <div class="notepad-list">
-      <app-notepad [user]="currentUser" [datebook]="infoDatebook" [issues]="[]"></app-notepad>
+      <app-notepad *ngFor="let notepad of usersIssues"
+                   [user]="notepad.user"
+                   [datebook]="infoDatebook"
+                   [issues]="notepad.issues"></app-notepad>
     </div>
   </div>
 </div>

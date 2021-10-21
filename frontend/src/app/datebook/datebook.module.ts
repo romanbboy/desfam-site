@@ -16,6 +16,7 @@ import {UserService} from "../shared/services/user.service";
 import {PicshowModule} from "../shared/modules/picshow/picshow.module";
 import {DeleteParticipantEffect} from "./store/effects/deleteParticipant.effect";
 import {EscapeDatebookEffect} from "./store/effects/escapeDatebook.effect";
+import {GetIssuesEffect} from "./store/effects/getIssues.effect";
 
 const routes = [
   {
@@ -31,6 +32,7 @@ const routes = [
     StoreModule.forFeature('datebook', reducers),
     EffectsModule.forFeature([
       GetDatebookEffect,
+      GetIssuesEffect,
       DeleteParticipantEffect,
       EscapeDatebookEffect
     ]),

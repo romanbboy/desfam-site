@@ -1,26 +1,24 @@
-<div class="issue">
-  <div class="issue__text">Пора заняться делом</div>
-  <div class="issue__settings">
-    <button class="btn btn-tiny issue__settings-icon">
-      <i class="point"></i>
-      <i class="point"></i>
-      <i class="point"></i>
-    </button>
-    <div class="issue__settings-modal">
-      <button class="btn btn-tiny issue__set issue-ready">
-        <i class="fa fa-check fa-fw"></i> Готово
-      </button>
-      <button class="btn btn-tiny issue__set issue-cancel">
-        <i class="fa fa-undo fa-fw"></i> Не готово
-      </button>
-      <button class="btn btn-tiny issue__set issue-edit">
-        <i class="fa fa-edit fa-fw"></i> Редактировать
-      </button>
-      <button class="btn btn-tiny issue__set issue-delete">
-        <i class="fa fa-remove fa-fw"></i> Удалить
-      </button>
-    </div>
+<div class="issue" #refIssue>
+  <div class="issue__text"
+       [ngClass]="{
+         'issue__text-active': showSettings,
+         'issue__text-ready': issue.status
+       }"
+       (click)="showSettings = !showSettings">
+    {{issue.content}}
   </div>
-
-<!--  <app-confirmation-modal></app-confirmation-modal>-->
+  <div class="issue__settings" *ngIf="showSettings">
+    <button *ngIf="!issue.status" (click)="changeStatus(issue)" class="btn btn-tiny issue__set issue-ready">
+      <i class="fa fa-check fa-fw"></i> Готово
+    </button>
+    <button *ngIf="issue.status" (click)="changeStatus(issue)" class="btn btn-tiny issue__set issue-cancel">
+      <i class="fa fa-undo fa-fw"></i> Не готово
+    </button>
+    <button class="btn btn-tiny issue__set issue-edit">
+      <i class="fa fa-edit fa-fw"></i> Редактировать
+    </button>
+    <button (click)="delete(issue)" class="btn btn-tiny issue__set issue-delete">
+      <i class="fa fa-remove fa-fw"></i> Удалить
+    </button>
+  </div>
 </div>

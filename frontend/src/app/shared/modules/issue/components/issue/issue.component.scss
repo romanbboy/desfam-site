@@ -3,18 +3,24 @@
 .issue {
   margin: 10px 0;
   position: relative;
-
-  &:hover {
-    .issue__settings {
-      display: block;
-    }
-  }
+  cursor: pointer;
 
   &__text {
     background-color: $grey;
     padding: 3px 30px 3px 10px;
     border-radius: 5px;
     font-size: 14px;
+    transition: all .3s;
+
+    &:hover { background-color: darken($grey, 7); }
+
+    &-active {
+      background-color: darken($grey, 7);
+    }
+    &-ready {
+      background-color: lighten($green, 12);
+      &:hover { background-color: lighten($green, 4); }
+    }
 
     @media (max-width: 425px){
       font-size: 13px;
@@ -23,12 +29,15 @@
 
   &__settings {
     position: absolute;
-    top: 10px;
-    right: 5px;
-    display: none;
+    top: 100%;
+    left: 0;
+    right: 0;
     z-index: 2;
+    background-color: rgb(201, 234, 242);
+    padding: 10px;
+    border-radius: 5px;
   }
-  &__settings-icon {
+  /*&__settings-icon {
     display: flex;
     cursor: pointer;
 
@@ -56,17 +65,19 @@
     //display: none;
     position: absolute;
     top: calc(100% + 11px);
-    right: -5px;
+    left: 0;
+    right: 0;
     padding: 10px;
     border-radius: 5px;
     background-color: rgb(201, 234, 242);
     width: max-content;
-  }
+  }*/
   &__set {
     font-size: 14px;
     line-height: 26px;
     cursor: pointer;
     display: block;
+    width: 100%;
 
     i {
       transition: all .1s;

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from "@ngrx/store";
 import {Observable, Subscription} from "rxjs";
-import {infoDatebookSelector} from "../../store/selectors";
+import {infoDatebookSelector, issuesSelector} from "../../store/selectors";
 import {CurrentUserInterface} from "../../../shared/types/currentUser.interface";
 import {currentUserSelector} from "../../../auth/store/selectors";
 import {getDatebookAction} from "../../store/actions/getDatebook.action";
@@ -18,6 +18,19 @@ import {DatebookService} from "../../../shared/services/datebook.service";
 import {deleteParticipantAction} from "../../store/actions/deleteParticipant.action";
 import {escapeDatebookAction} from "../../store/actions/escapeDatebook.action";
 import * as moment from "moment";
+import {getIssuesAction} from "../../store/actions/getIssues.action";
+import {IssueFullInterface, IssueInterface} from "../../../shared/types/issue.interface";
+import {UsersIssuesInterface} from "../../types/usersIssues.interface";
+import {UserInterface} from "../../../shared/types/user.interface";
+import {Moment} from "moment";
+
+
+interface IssuesMapInterface {
+  [key: string]: {
+    user: UserInterface,
+    issues: IssueFullInterface[]
+  }
+}
 
 @Component({
   selector: 'app-datebook',
@@ -29,6 +42,8 @@ export class DatebookComponent implements OnInit, OnDestroy {
   settingsTarget: string | null = null
   settingsAddParticipant: SettingsAddParticipantInterface = {}
 
+  headlineDate: Moment = moment();
+
   private subscription: Subscription = new Subscription()
 
   id: string
@@ -37,6 +52,9 @@ export class DatebookComponent implements OnInit, OnDestroy {
 
   currentUser$: Observable<CurrentUserInterface>
   infoDatebook$: Observable<DatebookInterface | null>
+  issues$: Observable<IssueFullInterface[]>
+
+  usersIssues: UsersIssuesInterface[]
 
   constructor(
     private store: Store,
@@ -64,10 +82,12 @@ export class DatebookComponent implements OnInit, OnDestroy {
     this.id = this.route.snapshot.paramMap.get('id');
     this.currentUser$ = this.store.pipe(select(currentUserSelector));
     this.infoDatebook$ = this.store.pipe(select(infoDatebookSelector));
+    this.issues$ = this.store.pipe(select(issuesSelector));
   }
 
   fetchData(): void {
-    this.store.dispatch(getDatebookAction({id: this.id}))
+    this.store.dispatch(getDatebookAction({id: this.id}));
+    this.store.dispatch(getIssuesAction({idDatebook: this.id, date: moment()}));
   }
 
   initForm(): void {
@@ -96,6 +116,19 @@ export class DatebookComponent implements OnInit, OnDestroy {
         this.infoDatebook = datebook;
       })
     );
+
+    this.subscription.add(
+      this.issues$.subscribe(issues => {
+        const issuesMap: IssuesMapInterface = issues.reduce((res, item) => {
+          if (!res[item.target.id]) res[item.target.id] = {user: item.target, issues: []};
+          res[item.target.id].issues.push(item);
+
+          return res;
+        }, {});
+
+        this.usersIssues = Object.entries(issuesMap).map(([key, obj]) => ({user: obj.user, issues: obj.issues}));
+      })
+    )
   }
 
   closeSettings(): void {

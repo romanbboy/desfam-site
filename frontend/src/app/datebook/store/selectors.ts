@@ -7,4 +7,9 @@ const datebookFeatureSelector = createFeatureSelector<AppStateInterface, Dateboo
 export const infoDatebookSelector = createSelector(
   datebookFeatureSelector,
   (state: DatebookStateInterface) => state.info
+);
+
+export const issuesSelector = createSelector(
+  datebookFeatureSelector,
+  (state: DatebookStateInterface) => state.issues
 )

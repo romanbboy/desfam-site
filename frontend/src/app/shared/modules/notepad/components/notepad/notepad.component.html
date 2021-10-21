@@ -12,7 +12,9 @@
   <div class="notepad__plan">
     <div *ngIf="!issues.length" class="notepad__plan-empty">У лентяя нет дел на сегодня</div>
     <div *ngIf="issues.length" class="notepad__list" >
-      <app-issue></app-issue>
+      <app-issue *ngFor="let issue of issues"
+                 [issue]="issue"
+      ></app-issue>
     </div>
   </div>
 
