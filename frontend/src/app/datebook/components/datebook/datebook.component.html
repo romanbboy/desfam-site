@@ -87,15 +87,19 @@
 
 
 <!--  Основной контент-->
-  <h2 *ngIf="infoDatebook">Ежедневник "{{infoDatebook.title}}"</h2>
+  <ng-container *ngIf="infoDatebook">
+    <h2>Ежедневник "{{infoDatebook.title}}"</h2>
 
-  <app-headline [date]="headlineDate"></app-headline>
-  <div class="datebook__day" *ngIf="usersIssues.length">
-    <div class="notepad-list">
-      <app-notepad *ngFor="let notepad of usersIssues"
-                   [user]="notepad.user"
-                   [datebook]="infoDatebook"
-                   [issues]="notepad.issues"></app-notepad>
+    <app-headline [date]="headlineDate"></app-headline>
+
+    <app-issue-creator-form [executors]="infoDatebook.participants" [datebook]="infoDatebook"></app-issue-creator-form>
+
+    <div class="datebook__day" *ngIf="usersIssues.length">
+      <div class="notepad-list">
+        <app-notepad *ngFor="let notepad of usersIssues"
+                     [user]="notepad.user"
+                     [issues]="notepad.issues"></app-notepad>
+      </div>
     </div>
-  </div>
+  </ng-container>
 </div>

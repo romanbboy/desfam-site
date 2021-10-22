@@ -1,0 +1,23 @@
+<div class="component mb-2 p-2">
+  <form [formGroup]="addNewIssueForm" (ngSubmit)="onAddNewIssue()" class="form form_add-new-issue">
+    <div class="form__group">
+      <h4>Добавить новый задачу</h4>
+      <div class="form__horizontal form__vertical-start form__nowrap">
+        <div class="flex flex__1 flex__column">
+          <input type="text" placeholder="Опиши задачу" formControlName="description" />
+          <app-field-notice [field]="addNewIssueForm.get('description')"></app-field-notice>
+        </div>
+        <app-submit-button [classes]="['btn-tiny btn-tiny-dark-primary btn-submit']"
+                           [disabled]="addNewIssueForm.invalid || isSubmittingAddNewIssue || !executor"
+                           [isSubmitting]="isSubmittingAddNewIssue">
+          <i class="fa fa-plus"></i>
+        </app-submit-button>
+      </div>
+
+      <div class="executor">
+        <span>Назначить на:</span>
+        <p-dropdown [options]="executors" [(ngModel)]="executor" [ngModelOptions]="{standalone: true}" optionLabel="username"></p-dropdown>
+      </div>
+    </div>
+  </form>
+</div>

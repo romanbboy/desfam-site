@@ -3,20 +3,15 @@ import {UserInterface} from "../../../../types/user.interface";
 import {IssueFullInterface} from "../../../../types/issue.interface";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
-import {DatebookInterface} from "../../../../types/datebook.interface";
 import {
-  addNewIssueAction,
-  addNewIssueFailureAction,
-  addNewIssueSuccessAction,
-  editIssueAction, editIssueFailureAction, editIssueSuccessAction
+  editIssueAction,
+  editIssueFailureAction,
+  editIssueSuccessAction
 } from "../../../issue/store/actions/issue.action";
-import {IssueRequestInterface} from "../../../issue/types/issueRequest.interface";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {Actions, ofType} from "@ngrx/effects";
-import {
-  acceptInvitationFailureAction,
-  acceptInvitationSuccessAction, rejectInvitationFailureAction, rejectInvitationSuccessAction
-} from "../../../../../main/store/actions/invitation.action";
+import {CurrentUserInterface} from "../../../../types/currentUser.interface";
+import {currentUserSelector} from "../../../../../auth/store/selectors";
 
 @Component({
   selector: 'app-notepad',
@@ -25,19 +20,15 @@ import {
 })
 export class NotepadComponent implements OnInit, OnDestroy {
   @Input() user: UserInterface;
-  @Input() datebook: DatebookInterface;
   @Input() issues: IssueFullInterface[];
-  @ViewChild('refAddNewIssue') refAddNewIssue: ElementRef
   @ViewChild('refEdit') refEdit: ElementRef
-
-  addNewIssueForm: FormGroup;
-  isSubmittingAddNewIssue: boolean = false;
 
   editIssueForm: FormGroup;
   isSubmittingEditIssue: boolean = false;
   editingIssue: IssueFullInterface | null = null
 
   showSettings: string = '';
+  currentUser$: Observable<CurrentUserInterface> = this.store.select(currentUserSelector)
 
   private subscription: Subscription = new Subscription()
 
@@ -55,22 +46,12 @@ export class NotepadComponent implements OnInit, OnDestroy {
   initListeners(): void {
     this.subscription.add(
       this.actions
-        .pipe( ofType(addNewIssueSuccessAction, addNewIssueFailureAction) )
-        .subscribe(() => this.isSubmittingAddNewIssue = false)
-    );
-
-    this.subscription.add(
-      this.actions
         .pipe( ofType(editIssueSuccessAction, editIssueFailureAction) )
         .subscribe(() => this.isSubmittingEditIssue = false)
     );
   }
 
   initForm(): void {
-    this.addNewIssueForm = this.fb.group({
-      description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(200)]]
-    });
-
     this.editIssueForm = this.fb.group({
       description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(200)]]
     });
@@ -79,25 +60,6 @@ export class NotepadComponent implements OnInit, OnDestroy {
   closeSettingsBlock(): void {
     this.showSettings = '';
     this.editingIssue = null;
-  }
-
-  // добавление новой задачи
-  setShowAddNewIssueSettings() {
-    this.showSettings = 'addIssue';
-    setTimeout(() => this.refAddNewIssue.nativeElement.focus(), 0);
-  }
-
-  onAddNewIssue(): void {
-    if (this.addNewIssueForm.valid) {
-      this.isSubmittingAddNewIssue = true;
-      const issueRequest: IssueRequestInterface = {
-        datebook: this.datebook.id,
-        target: this.user.id,
-        content: this.addNewIssueForm.value.description
-      }
-
-      this.store.dispatch(addNewIssueAction({issueRequest}))
-    }
   }
 
   // редактирование задачи

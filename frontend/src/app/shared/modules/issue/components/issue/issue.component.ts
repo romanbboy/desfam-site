@@ -1,7 +1,10 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewRef} from "@angular/core";
-import {IssueFullInterface, IssueInterface} from "../../../../types/issue.interface";
-import {Store} from "@ngrx/store";
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from "@angular/core";
+import {IssueFullInterface} from "../../../../types/issue.interface";
+import {select, Store} from "@ngrx/store";
 import {changeStatusAction, deleteIssueAction} from "../../store/actions/issue.action";
+import {Observable, Subscription} from "rxjs";
+import {currentUserSelector} from "../../../../../auth/store/selectors";
+import {CurrentUserInterface} from "../../../../types/currentUser.interface";
 
 @Component({
   selector: 'app-issue',
@@ -10,11 +13,13 @@ import {changeStatusAction, deleteIssueAction} from "../../store/actions/issue.a
 })
 export class IssueComponent implements OnInit, OnDestroy{
   @Input() issue: IssueFullInterface
+  @Input() currentUser: CurrentUserInterface
   @Output('setEditSettings') setEditSettingsEvent = new EventEmitter()
   @ViewChild('refIssue') refIssue: ElementRef
 
   showSettings: boolean = false
 
+  // todo добавить аватарки для создателей задачи
   private handler: any = e => {
     if ((e.target as HTMLElement).closest('.issue') !== this.refIssue.nativeElement) {
       this.showSettings = false;
@@ -29,7 +34,13 @@ export class IssueComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy() {
-    document.removeEventListener('click', this.handler)
+    document.removeEventListener('click', this.handler);
+  }
+
+  setShowSettings(): void {
+    if ([this.issue.target.id, this.issue.creator.id].includes(this.currentUser.id)) {
+      this.showSettings = !this.showSettings;
+    }
   }
 
   changeStatus(issue: IssueFullInterface): void {

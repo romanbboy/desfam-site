@@ -17,6 +17,7 @@ import {PicshowModule} from "../shared/modules/picshow/picshow.module";
 import {DeleteParticipantEffect} from "./store/effects/deleteParticipant.effect";
 import {EscapeDatebookEffect} from "./store/effects/escapeDatebook.effect";
 import {GetIssuesEffect} from "./store/effects/getIssues.effect";
+import {IssueCreatorFormModule} from "../shared/modules/issue-creator-form/issue-creator-form.module";
 
 const routes = [
   {
@@ -42,7 +43,8 @@ const routes = [
     NoticeModule,
     ReactiveFormsModule,
     FieldNoticeModule,
-    PicshowModule
+    PicshowModule,
+    IssueCreatorFormModule
   ],
   declarations: [DatebookComponent],
   exports: [DatebookComponent],

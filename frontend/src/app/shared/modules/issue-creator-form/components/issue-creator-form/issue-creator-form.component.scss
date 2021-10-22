@@ -1,0 +1,50 @@
+.form_add-new-issue {
+  margin: 0;
+
+  .form__group {
+    margin: 0;
+  }
+
+  ::ng-deep .btn-submit{
+    margin-left: 10px;
+    line-height: 36px;
+
+    i {
+      font-size: 16px;
+    }
+  }
+
+  .executor {
+    margin: 7px 0;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    ::ng-deep p-dropdown{
+      margin-left: 7px;
+      .p-inputtext{
+        padding: 0.3rem;
+        font-size: 14px;
+      }
+      .p-dropdown-trigger-icon {
+        font-size: 14px;
+      }
+      .p-dropdown-item {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 425px){
+      span{
+        display: block;
+        margin-bottom: 5px;
+        width: 100%;
+      }
+
+      ::ng-deep p-dropdown{
+        margin-left: 0;
+      }
+    }
+  }
+}
