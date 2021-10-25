@@ -14,7 +14,7 @@ import {
 const initDatebookState: DatebookStateInterface = {
   info: null,
   issues: []
-}
+};
 
 const datebookReducer = createReducer(
   initDatebookState,
@@ -46,15 +46,24 @@ const datebookReducer = createReducer(
       }
 
       return {...issue, creator, target};
-    })
+    });
 
     return {...state, issues}
   }),
 
-  on(addNewIssueSuccessAction, (state, action): DatebookStateInterface => ({
-    ...state,
-    issues: [...state.issues, action.issue]
-  })),
+  on(addNewIssueSuccessAction, (state, action): DatebookStateInterface => {
+    let issue = {...action.issue};
+
+    if (!environment.production) {
+      if (issue.creator.avatar) issue.creator = {...issue.creator, avatar: `${environment.devUrl}${issue.creator.avatar}`};
+      if (issue.target.avatar) issue.target = {...issue.target, avatar: `${environment.devUrl}${issue.target.avatar}`};
+    }
+
+    return {
+      ...state,
+      issues: [...state.issues, issue]
+    }
+  }),
 
   on(changeStatusSuccessAction, (state, action): DatebookStateInterface => ({
     ...state,
@@ -80,7 +89,7 @@ const datebookReducer = createReducer(
   })),
 
   on(routerNavigationAction, (): DatebookStateInterface => initDatebookState)
-)
+);
 
 export function reducers(state: DatebookStateInterface, action: Action) {
   return datebookReducer(state, action)

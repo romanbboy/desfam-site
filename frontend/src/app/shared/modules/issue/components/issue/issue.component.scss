@@ -27,6 +27,17 @@
     }
   }
 
+  &__creator {
+    position: absolute;
+    top: -7px;
+    left: -5px;
+
+    ::ng-deep app-picshow .picshow img {
+      width: 17px;
+      height: 17px;
+    }
+  }
+
   &__settings {
     position: absolute;
     top: 100%;

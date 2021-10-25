@@ -7,6 +7,9 @@
        (click)="setShowSettings()">
     {{issue.content}}
   </div>
+  <div *ngIf="issue.target.id !== issue.creator.id" class="issue__creator">
+    <app-picshow [picture]="issue.creator.avatar"></app-picshow>
+  </div>
   <div class="issue__settings" *ngIf="showSettings">
     <ng-container *ngIf="currentUser">
 
