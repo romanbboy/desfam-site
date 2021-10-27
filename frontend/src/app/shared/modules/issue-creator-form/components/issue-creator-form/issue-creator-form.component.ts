@@ -18,15 +18,16 @@ import {Subscription} from "rxjs";
   styleUrls: ['./issue-creator-form.component.scss']
 })
 export class IssueCreatorFormComponent implements OnInit, OnDestroy {
-  @Input() executors: UserInterface[] = []
-  @Input() datebook: DatebookInterface
+  @Input() executors: UserInterface[] = [];
+  @Input() datebook: DatebookInterface;
+  @Input() date: Date;
 
   addNewIssueForm: FormGroup;
   isSubmittingAddNewIssue: boolean = false;
 
-  executor: UserInterface
+  executor: UserInterface;
 
-  private subscription: Subscription = new Subscription()
+  private subscription: Subscription = new Subscription();
 
   constructor(private fb: FormBuilder, private store: Store, private actions: Actions) { }
 
@@ -64,10 +65,11 @@ export class IssueCreatorFormComponent implements OnInit, OnDestroy {
     if (this.addNewIssueForm.valid && this.executor) {
       this.isSubmittingAddNewIssue = true;
       const issueRequest: IssueRequestInterface = {
+        date: this.date,
         datebook: this.datebook.id,
         target: this.executor.id,
         content: this.addNewIssueForm.value.description
-      }
+      };
 
       this.store.dispatch(addNewIssueAction({issueRequest}))
     }

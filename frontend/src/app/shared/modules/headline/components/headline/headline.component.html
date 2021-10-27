@@ -1,7 +1,14 @@
 <div class="headline">
   <div class="headline__date">
     <div class="headline__day">{{day | titlecase}}</div>
-    <div class="headline__full-date">{{fullDate}}</div>
+    <div class="headline__full-date">
+      <p-calendar (onSelect)="selectDate($event)"
+                  [(ngModel)]="fullDate"
+                  dateFormat="dd.mm.yy"
+                  [readonlyInput]="true"
+                  [touchUI]="true"
+                  firstDayOfWeek="1"></p-calendar>
+    </div>
   </div>
   <div class="headline__hr"></div>
 </div>

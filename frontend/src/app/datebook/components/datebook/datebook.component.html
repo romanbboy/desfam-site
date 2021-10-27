@@ -90,9 +90,12 @@
   <ng-container *ngIf="infoDatebook">
     <h2>Ежедневник "{{infoDatebook.title}}"</h2>
 
-    <app-headline [date]="headlineDate"></app-headline>
+    <app-headline [date]="date" (setDate)="onSetDate($event)"></app-headline>
 
-    <app-issue-creator-form [executors]="infoDatebook.participants" [datebook]="infoDatebook"></app-issue-creator-form>
+    <app-issue-creator-form *ngIf="showIssueCreator"
+                            [date]="date"
+                            [executors]="infoDatebook.participants"
+                            [datebook]="infoDatebook"></app-issue-creator-form>
 
     <div class="datebook__day" *ngIf="usersIssues.length">
       <div class="notepad-list">

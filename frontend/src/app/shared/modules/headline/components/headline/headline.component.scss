@@ -19,10 +19,29 @@
 
   &__full-date {
     font-weight: 400;
+    position: relative;
   }
 
   &__hr {
     height: 1px;
     background: linear-gradient(to right, rgb(202, 214, 244, 0.15) 0%, rgb(202, 214, 244, 1) 50%, rgb(202, 214, 244, 0.15) 100%);
+  }
+
+  ::ng-deep p-calendar{
+    input {
+      text-align: right;
+      font-size: 20px;
+      color: #26364b;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 0;
+      &:focus {
+        outline: none;
+        box-shadow: none;
+        border: none;
+      }
+    }
   }
 }

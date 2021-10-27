@@ -8,7 +8,7 @@ import {getDatebookAction} from "../../store/actions/getDatebook.action";
 import {ActivatedRoute} from "@angular/router";
 import {DatebookInterface} from "../../../shared/types/datebook.interface";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {debounceTime, map, take, tap} from "rxjs/operators";
+import {debounceTime, tap} from "rxjs/operators";
 import {UserService} from "../../../shared/services/user.service";
 import {SettingsAddParticipantInterface} from "../../types/settingsAddParticipant.interface";
 import {InvitationService} from "../../../shared/services/invitation.service";
@@ -18,11 +18,11 @@ import {DatebookService} from "../../../shared/services/datebook.service";
 import {deleteParticipantAction} from "../../store/actions/deleteParticipant.action";
 import {escapeDatebookAction} from "../../store/actions/escapeDatebook.action";
 import * as moment from "moment";
+import {Moment} from "moment";
 import {getIssuesAction} from "../../store/actions/getIssues.action";
-import {IssueFullInterface, IssueInterface} from "../../../shared/types/issue.interface";
+import {IssueFullInterface} from "../../../shared/types/issue.interface";
 import {UsersIssuesInterface} from "../../types/usersIssues.interface";
 import {UserInterface} from "../../../shared/types/user.interface";
-import {Moment} from "moment";
 
 
 interface IssuesMapInterface {
@@ -38,23 +38,25 @@ interface IssuesMapInterface {
   styleUrls: ['./datebook.component.scss']
 })
 export class DatebookComponent implements OnInit, OnDestroy {
-  settingsShow: boolean = false
-  settingsTarget: string | null = null
-  settingsAddParticipant: SettingsAddParticipantInterface = {}
+  settingsShow: boolean = false;
+  settingsTarget: string | null = null;
+  settingsAddParticipant: SettingsAddParticipantInterface = {};
 
-  headlineDate: Moment = moment();
+  showIssueCreator: boolean = true;
 
-  private subscription: Subscription = new Subscription()
+  date: Moment;
 
-  id: string
-  addParticipantForm: FormGroup
-  infoDatebook: DatebookInterface
+  private subscription: Subscription = new Subscription();
 
-  currentUser$: Observable<CurrentUserInterface>
-  infoDatebook$: Observable<DatebookInterface | null>
-  issues$: Observable<IssueFullInterface[]>
+  id: string;
+  addParticipantForm: FormGroup;
+  infoDatebook: DatebookInterface;
 
-  usersIssues: UsersIssuesInterface[]
+  currentUser$: Observable<CurrentUserInterface>;
+  infoDatebook$: Observable<DatebookInterface | null>;
+  issues$: Observable<IssueFullInterface[]>;
+
+  usersIssues: UsersIssuesInterface[];
 
   constructor(
     private store: Store,
@@ -65,7 +67,10 @@ export class DatebookComponent implements OnInit, OnDestroy {
     private invitationService: InvitationService,
     private alertService: AlertService,
     private confirmService: ConfirmService
-  ) {}
+  ) {
+    moment.locale('ru');
+    this.date = moment();
+  }
 
   ngOnInit(): void {
     this.initValues();
@@ -109,7 +114,7 @@ export class DatebookComponent implements OnInit, OnDestroy {
         .subscribe(v => {
           if (this.addParticipantForm.valid) this.searchParticipant(v.email);
         })
-    )
+    );
 
     this.subscription.add(
       this.infoDatebook$.subscribe(datebook => {
@@ -138,7 +143,7 @@ export class DatebookComponent implements OnInit, OnDestroy {
 
   // Блок добавления нового участника
   searchParticipant(email) {
-    this.settingsAddParticipant = {notice: 'Ищем...', typeNotice: 'standard'}
+    this.settingsAddParticipant = {notice: 'Ищем...', typeNotice: 'standard'};
     this.userService.findOne('email', email).subscribe(user => {
       let participant = user;
       let notice = user ? `${user.username} найден` : 'Пользователь не найден';
@@ -146,7 +151,7 @@ export class DatebookComponent implements OnInit, OnDestroy {
 
       if (user && this.infoDatebook.participants.find(el => el.id === user.id)) {
         participant = null;
-        notice = `${user.username} уже участник этого ежедневника`
+        notice = `${user.username} уже участник этого ежедневника`;
         typeNotice = 'error';
       }
 
@@ -203,5 +208,16 @@ export class DatebookComponent implements OnInit, OnDestroy {
         this.store.dispatch(escapeDatebookAction({datebook}));
       }
     });
+  }
+
+  // Изменить дату
+  onSetDate(date: Date): void {
+    const stringDate = moment(date).format('YYYY-MM-DD');
+    const stringDateToday = moment().format('YYYY-MM-DD');
+
+    this.showIssueCreator = !moment(stringDate).isBefore(stringDateToday);
+
+    this.date = moment(date);
+    this.store.dispatch(getIssuesAction({idDatebook: this.id, date: moment(date)}));
   }
 }

@@ -3,6 +3,7 @@ import {IssueFullInterface} from "../../../../types/issue.interface";
 import {Store} from "@ngrx/store";
 import {changeStatusAction, deleteIssueAction} from "../../store/actions/issue.action";
 import {CurrentUserInterface} from "../../../../types/currentUser.interface";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-issue',
@@ -24,6 +25,7 @@ export class IssueComponent implements OnInit, OnDestroy{
   };
 
   constructor(private store: Store) {
+    moment.locale('ru');
   }
 
   ngOnInit() {
@@ -36,7 +38,10 @@ export class IssueComponent implements OnInit, OnDestroy{
 
   setShowSettings(): void {
     if ([this.issue.target.id, this.issue.creator.id].includes(this.currentUser.id)) {
-      this.showSettings = !this.showSettings;
+      const stringDateIssue = moment(this.issue.date).format('YYYY-MM-DD');
+      const stringDateToday = moment().format('YYYY-MM-DD');
+
+      if (!moment(stringDateIssue).isBefore(stringDateToday)) this.showSettings = !this.showSettings;
     }
   }
 
