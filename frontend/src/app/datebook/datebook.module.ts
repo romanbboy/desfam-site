@@ -18,6 +18,7 @@ import {DeleteParticipantEffect} from "./store/effects/deleteParticipant.effect"
 import {EscapeDatebookEffect} from "./store/effects/escapeDatebook.effect";
 import {GetIssuesEffect} from "./store/effects/getIssues.effect";
 import {IssueCreatorFormModule} from "../shared/modules/issue-creator-form/issue-creator-form.module";
+import {SkeletonModule} from "primeng/skeleton";
 
 const routes = [
   {

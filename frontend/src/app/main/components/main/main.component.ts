@@ -1,10 +1,12 @@
-import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from "@ngrx/store";
 import {showAddNewDatebookAction} from "../../store/actions/sync.action";
 import {
-  datebookListSelector, errorAddNewDatebookSelector, invitationsSelector,
-  isSubmittingAddNewDatebookSelector,
-  showAddNewDatebookSelector
+    datebookListSelector,
+    errorAddNewDatebookSelector,
+    invitationsSelector,
+    isSubmittingAddNewDatebookSelector,
+    showAddNewDatebookSelector
 } from "../../store/selectors";
 import {Observable, Subscription} from "rxjs";
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -19,9 +21,12 @@ import {Actions, ofType} from "@ngrx/effects";
 import {InviteInterface} from "../../../shared/types/invite.interface";
 import {getAllInvitationAction} from "../../store/actions/getAllInvitation.action";
 import {
-  acceptInvitationAction, acceptInvitationFailureAction,
-  acceptInvitationSuccessAction,
-  rejectInvitationAction, rejectInvitationFailureAction, rejectInvitationSuccessAction
+    acceptInvitationAction,
+    acceptInvitationFailureAction,
+    acceptInvitationSuccessAction,
+    rejectInvitationAction,
+    rejectInvitationFailureAction,
+    rejectInvitationSuccessAction
 } from "../../store/actions/invitation.action";
 
 @Component({

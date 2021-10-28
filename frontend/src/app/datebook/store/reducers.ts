@@ -4,7 +4,7 @@ import {getDatebookSuccessAction} from "./actions/getDatebook.action";
 import {routerNavigationAction} from "@ngrx/router-store";
 import {environment} from "../../../environments/environment";
 import {deleteParticipantSuccessAction} from "./actions/deleteParticipant.action";
-import {getIssuesSuccessAction} from "./actions/getIssues.action";
+import {getIssuesAction, getIssuesSuccessAction} from "./actions/getIssues.action";
 import {
   addNewIssueSuccessAction,
   changeStatusSuccessAction,
@@ -13,7 +13,7 @@ import {
 
 const initDatebookState: DatebookStateInterface = {
   info: null,
-  issues: []
+  issues: null
 };
 
 const datebookReducer = createReducer(
@@ -35,6 +35,10 @@ const datebookReducer = createReducer(
     }
   })),
 
+  on(getIssuesAction, (state): DatebookStateInterface => ({
+    ...state,
+    issues: null
+  })),
   on(getIssuesSuccessAction, (state, action): DatebookStateInterface => {
 
     let issues = action.issues.map(issue => {

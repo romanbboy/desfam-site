@@ -207,6 +207,19 @@
   }
 }
 
+// skeleton
+@mixin skeleton--before {
+  content: '';
+  animation: skeleton-animation 1s infinite;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  transform: translateX(-100%);
+  z-index: 1;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+}
 .skeleton {
   position: relative;
   padding: 30px;
@@ -222,16 +235,23 @@
     position: relative;
     margin-bottom: .7rem;
     &:before{
-      content: '';
-      animation: skeleton-animation 1s infinite;
-      height: 100%;
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      transform: translateX(-100%);
-      z-index: 1;
-      background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+      @include skeleton--before
+    }
+
+    &--bold {
+      height: 2rem;
+    }
+  }
+
+  &__circle {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    background-color: #e9ecef;
+    &:before{
+      @include skeleton--before
     }
   }
 }

@@ -124,14 +124,17 @@ export class DatebookComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.issues$.subscribe(issues => {
-        const issuesMap: IssuesMapInterface = issues.reduce((res, item) => {
-          if (!res[item.target.id]) res[item.target.id] = {user: item.target, issues: []};
-          res[item.target.id].issues.push(item);
+        this.usersIssues = null;
+        if (issues) {
+          const issuesMap: IssuesMapInterface = issues.reduce((res, item) => {
+            if (!res[item.target.id]) res[item.target.id] = {user: item.target, issues: []};
+            res[item.target.id].issues.push(item);
 
-          return res;
-        }, {});
+            return res;
+          }, {});
 
-        this.usersIssues = Object.entries(issuesMap).map(([key, obj]) => ({user: obj.user, issues: obj.issues}));
+          this.usersIssues = Object.entries(issuesMap).map(([key, obj]) => ({user: obj.user, issues: obj.issues}));
+        }
       })
     )
   }

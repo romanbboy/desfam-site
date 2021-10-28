@@ -8,29 +8,34 @@
 
       <ng-container *ngIf="currentUser.id === infoDatebook.creator">
         <div class="datebook__action datebook__action_small">
-          Добавить участника &nbsp; <button class="btn btn-tiny" (click)="settingsTarget = 'addParticipant'"><i class="fa fa-user-plus icon-success"></i></button>
+          <span>Добавить участника</span>
+          <button class="btn btn-tiny" (click)="settingsTarget = 'addParticipant'"><i class="fa fa-user-plus icon-success"></i></button>
         </div>
         <div class="datebook__action datebook__action_small">
-          Удалить участника &nbsp; <button class="btn btn-tiny" (click)="settingsTarget = 'removeParticipant'"><i class="fa fa-user-times icon-danger"></i></button>
+          <span>Удалить участника</span>
+          <button class="btn btn-tiny" (click)="settingsTarget = 'removeParticipant'"><i class="fa fa-user-times icon-danger"></i></button>
         </div>
         <div class="datebook__action datebook__action_small">
-          Закрыть настройки &nbsp; <button class="btn btn-tiny" (click)="closeSettings()"><i class="fa fa-times-circle-o icon-neutral"></i></button>
+          <span>Закрыть настройки</span>
+          <button class="btn btn-tiny" (click)="closeSettings()"><i class="fa fa-times-circle-o icon-neutral"></i></button>
         </div>
       </ng-container>
 
       <ng-container *ngIf="currentUser.id !== infoDatebook.creator">
         <div class="datebook__action datebook__action_small">
-          Покинуть ежедневник &nbsp; <button class="btn btn-tiny" (click)="confirmEscape(infoDatebook)"><i class="fa fa-sign-out icon-danger"></i></button>
+          <span>Покинуть ежедневник</span>
+          <button class="btn btn-tiny" (click)="confirmEscape(infoDatebook)"><i class="fa fa-sign-out icon-danger"></i></button>
         </div>
         <div class="datebook__action datebook__action_small">
-          Закрыть настройки &nbsp; <button class="btn btn-tiny" (click)="closeSettings()"><i class="fa fa-times-circle-o icon-neutral"></i></button>
+          <span>Закрыть настройки</span>
+          <button class="btn btn-tiny" (click)="closeSettings()"><i class="fa fa-times-circle-o icon-neutral"></i></button>
         </div>
       </ng-container>
     </ng-container>
   </div>
 
 <!--  Настройки-->
-  <div class="component mb-5" *ngIf="settingsTarget">
+  <div class="datebook__settings component mb-5" *ngIf="settingsTarget">
 
 <!--    Добавление нового участника-->
     <form *ngIf="settingsTarget === 'addParticipant'" [formGroup]="addParticipantForm" (ngSubmit)="onAddParticipant()" class="form datebook__add-participant-form">
@@ -82,27 +87,43 @@
         </ng-container>
       </div>
     </ng-container>
-
   </div>
 
 
-<!--  Основной контент-->
-  <ng-container *ngIf="infoDatebook">
-    <h2>Ежедневник "{{infoDatebook.title}}"</h2>
+  <!--  Основной контент-->
+  <div class="datebook__main mb-5">
+    <ng-container *ngIf="infoDatebook">
+      <h2>Ежедневник "{{infoDatebook.title}}"</h2>
 
-    <app-headline [date]="date" (setDate)="onSetDate($event)"></app-headline>
+      <app-headline [date]="date" (setDate)="onSetDate($event)"></app-headline>
 
-    <app-issue-creator-form *ngIf="showIssueCreator"
-                            [date]="date"
-                            [executors]="infoDatebook.participants"
-                            [datebook]="infoDatebook"></app-issue-creator-form>
+      <app-issue-creator-form *ngIf="showIssueCreator"
+                              [date]="date"
+                              [executors]="infoDatebook.participants"
+                              [datebook]="infoDatebook"></app-issue-creator-form>
+    </ng-container>
 
-    <div class="datebook__day" *ngIf="usersIssues.length">
-      <div class="notepad-list">
-        <app-notepad *ngFor="let notepad of usersIssues"
-                     [user]="notepad.user"
-                     [issues]="notepad.issues"></app-notepad>
-      </div>
-    </div>
-  </ng-container>
+    <ng-container>
+      <ng-container *ngIf="usersIssues">
+        <div class="datebook__day" *ngIf="usersIssues.length">
+          <div class="notepad-list">
+            <app-notepad *ngFor="let notepad of usersIssues"
+                         [user]="notepad.user"
+                         [issues]="notepad.issues"></app-notepad>
+          </div>
+        </div>
+        <div class="flex flex_wrap flex_jc-c--xs mv-8" *ngIf="!usersIssues.length">
+          <i class="fa fa-calendar-times-o fa-3x"></i>
+          <div class="w-100 mt-3 tac">Задачи отсутствуют</div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!usersIssues">
+        <div class="flex flex__wrap flex_jc-sb--xs">
+          <app-skeleton-notepad></app-skeleton-notepad>
+          <app-skeleton-notepad></app-skeleton-notepad>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
 </div>
