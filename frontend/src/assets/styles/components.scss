@@ -227,6 +227,15 @@
   background-color: #fff;
   margin-top: 30px;
 
+  &-notepad {
+    padding: 20px;
+
+    &__head {
+      border-bottom: 1px solid rgba(29, 139, 216, 0.4);
+      padding-bottom: 10px;
+    }
+  }
+
   &__item {
     background-color: #e9ecef;
     border-radius: 3px;
