@@ -5,6 +5,7 @@ import {FieldNoticeModule} from "../field-notice/field-notice.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UiModule} from "../ui/ui.module";
 import {DropdownModule} from "primeng/dropdown";
+import {CalendarModule} from "primeng/calendar";
 
 
 
@@ -21,7 +22,8 @@ import {DropdownModule} from "primeng/dropdown";
     ReactiveFormsModule,
     UiModule,
     DropdownModule,
-    FormsModule
+    FormsModule,
+    CalendarModule
   ]
 })
 export class IssueCreatorFormModule { }

@@ -4,7 +4,7 @@ import {catchError, map, switchMap} from "rxjs/operators";
 import {of} from "rxjs";
 import {
   addNewIssueAction,
-  addNewIssueFailureAction,
+  addNewIssueFailureAction, addNewIssueNotEffectSuccessAction,
   addNewIssueSuccessAction,
   changeStatusAction,
   changeStatusFailureAction,
@@ -17,16 +17,22 @@ import {IssueFullInterface, IssueInterface} from "../../../../types/issue.interf
 import {AlertService} from "../../../../services/alert.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {IssueService} from "../../services/issue.service";
+import * as moment from "moment";
 
 @Injectable()
 export class IssueEffect {
   addNewIssue$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addNewIssueAction),
-      switchMap(({issueRequest}) => {
+      switchMap(({issueRequest, targetDayDatebook}) => {
         return this.issueService.add(issueRequest).pipe(
           map((issue: IssueFullInterface) => {
-            return addNewIssueSuccessAction({issue})
+            const matchDate = moment(issue.date).isSame(targetDayDatebook);
+            const postfixMsg = !matchDate ? `на ${moment(issue.date).format('DD.MM.YYYY')}` : '';
+
+            this.alertService.success(`Задача добавлена ${postfixMsg}`);
+
+            return matchDate ? addNewIssueSuccessAction({issue}) : addNewIssueNotEffectSuccessAction()
           }),
 
           catchError((errors: HttpErrorResponse) => {

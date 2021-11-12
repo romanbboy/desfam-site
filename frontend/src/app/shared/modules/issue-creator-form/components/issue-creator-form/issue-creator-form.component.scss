@@ -1,3 +1,5 @@
+@import "src/assets/styles/variables";
+
 .form_add-new-issue {
   margin: 0;
 
@@ -35,6 +37,30 @@
       }
     }
 
+    &__date {
+      max-width: 70px;
+      margin-left: 30px;
+      border-bottom: 1px dotted $blue;
+
+      @media (max-width: 425px){
+        margin-left: 0;
+        margin-top: 10px;
+      }
+
+      ::ng-deep p-calendar{
+        input {
+          text-align: center;
+          font-size: 14px;
+          color: $blue;
+          background-color: transparent;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          padding: 0;
+        }
+      }
+    }
+
     @media (max-width: 425px){
       span{
         display: block;
@@ -44,6 +70,7 @@
 
       ::ng-deep p-dropdown{
         margin-left: 0;
+        width: 100%;
       }
     }
   }

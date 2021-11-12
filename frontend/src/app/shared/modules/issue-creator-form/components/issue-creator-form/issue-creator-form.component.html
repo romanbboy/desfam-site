@@ -17,6 +17,16 @@
       <div class="executor">
         <span>Назначить на:</span>
         <p-dropdown [options]="executors" [(ngModel)]="executor" [ngModelOptions]="{standalone: true}" optionLabel="username"></p-dropdown>
+        <div class="executor__date">
+          <p-calendar (onSelect)="dateForm = $event"
+                      [(ngModel)]="dateForm"
+                      dateFormat="dd.mm.yy"
+                      [minDate]="today"
+                      [readonlyInput]="true"
+                      [touchUI]="true"
+                      [ngModelOptions]="{standalone: true}"
+                      firstDayOfWeek="1"></p-calendar>
+        </div>
       </div>
     </div>
   </form>

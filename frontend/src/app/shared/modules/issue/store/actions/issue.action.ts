@@ -5,13 +5,14 @@ import {IssueFullInterface, IssueInterface} from "../../../../types/issue.interf
 // add new issue
 export const addNewIssueAction = createAction(
   '[Notepad] ADD_NEW_ISSUE',
-  props<{issueRequest: IssueRequestInterface}>()
+  props<{issueRequest: IssueRequestInterface, targetDayDatebook: Date}>()
 );
 
 export const addNewIssueSuccessAction = createAction(
   '[Notepad] ADD_NEW_ISSUE_SUCCESS',
   props<{issue: IssueFullInterface}>()
 );
+export const addNewIssueNotEffectSuccessAction = createAction('[Notepad] ADD_NEW_ISSUE_NOT_EFFECT_SUCCESS');
 
 export const addNewIssueFailureAction = createAction('[Notepad] ADD_NEW_ISSUE_FAILURE');
 
