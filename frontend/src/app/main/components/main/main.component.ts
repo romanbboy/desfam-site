@@ -28,6 +28,7 @@ import {
     rejectInvitationFailureAction,
     rejectInvitationSuccessAction
 } from "../../store/actions/invitation.action";
+import {AlertService} from "../../../shared/services/alert.service";
 
 @Component({
   selector: 'app-main',
@@ -48,7 +49,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription = new Subscription();
 
-  constructor(private store: Store, private fb: FormBuilder, private actions: Actions) { }
+  constructor(private store: Store, private fb: FormBuilder, private actions: Actions, private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.initValues();
@@ -119,7 +120,10 @@ export class MainComponent implements OnInit, OnDestroy {
 
   submitNewDatebook(): void {
     if (this.form.valid) {
-      this.store.dispatch(addDatebookAction({datebook: this.form.value}))
+      if (this.getField('datebook').value.trim().length >= 3) {
+        this.store.dispatch(addDatebookAction({datebook: this.form.value}));
+      }
+      else this.alertService.error('Название задачника не менее 3 символов')
     }
   }
 

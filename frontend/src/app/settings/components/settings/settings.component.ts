@@ -60,8 +60,8 @@ export class SettingsComponent implements OnInit, OnDestroy{
 
   initForm(): void {
     this.form = this.fb.group({
-      username: [this.currentUser.username, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-      position: [this.currentUser.position, [Validators.maxLength(20)]],
+      username: [this.currentUser.username, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      position: [this.currentUser.position, [Validators.maxLength(50)]],
       avatar: '',
       password: ['', Validators.minLength(5)]
     })
