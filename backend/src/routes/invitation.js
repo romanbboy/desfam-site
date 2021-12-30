@@ -40,7 +40,7 @@ router.get('/', checkToken, async (req, res) => {
 router.get('/:id/accept', checkToken, async (req, res) => {
   const user = req.user;
   const invitation = await Invitation.findOne({_id: req.params.id, referral: user.id});
-  
+
   if (invitation) {
     const datebook = await Datebook.findById(invitation.target);
 

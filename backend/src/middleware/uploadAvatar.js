@@ -20,5 +20,6 @@ const storage = multer.diskStorage({
 });
 
 module.exports = multer({
-  storage
+  storage,
+  limits: { fieldSize: 50 * 1024 * 1024 }
 })

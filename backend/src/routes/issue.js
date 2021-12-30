@@ -39,12 +39,12 @@ router.post('/get', checkToken, checkParticipant, async (req, res) => {
 
   let startDay = moment(date).startOf('date');
   let endDay = moment(date).endOf('date');
-  
+
   const issues = await Issue.find({
     datebook: idDatebook,
     date: {$gte: startDay, $lte: endDay}
   }).populate('datebook creator target');
-  
+
   res.status(200).json(issues);
 });
 
@@ -53,7 +53,7 @@ router.put('/:id/status', checkToken, async (req, res) => {
   const user = req.user;
 
   const issue = await Issue.findById(req.params.id);
-  
+
   if ([issue.creator.toString(), issue.target.toString()].includes(user.id)) {
     const updatedIssue = await Issue.findByIdAndUpdate(req.params.id, {status: !issue.status}, {new: true}).populate('creator datebook target');
     res.status(200).json(updatedIssue);

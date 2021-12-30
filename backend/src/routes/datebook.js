@@ -50,7 +50,7 @@ router.delete('/:id_datebook/delete/participant/:id_participant', checkToken, as
 
   if (datebook.creator.toString() === req.user.id) {
     await Datebook.findByIdAndUpdate(req.params.id_datebook, { $pull: { 'participants': req.params.id_participant } }, {new: true});
-    res.status(200).json();
+    res.status(200).json('Участник удален');
   } else {
     res.status(500).json('Ты не создатель ежедневника');
   }
@@ -60,7 +60,7 @@ router.delete('/:id_datebook/delete/participant/:id_participant', checkToken, as
 router.get('/:id/escape', checkToken, async (req, res) => {
   const user = req.user;
   const datebook = await Datebook.findById(req.params.id);
-  
+
   if (datebook.participants.includes(user.id)) {
     await Datebook.findByIdAndUpdate(req.params.id, { $pull: { 'participants': user.id } });
     res.status(200).json();

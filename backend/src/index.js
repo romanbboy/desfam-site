@@ -16,7 +16,8 @@ const issueRouter = require('./routes/issue');
 const app = express();
 
 app.use(morgan('combined'));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cors());
 
 // routes
@@ -42,7 +43,9 @@ async function start(){
       useFindAndModify: false
     });
 
-    app.listen(process.env.PORT, () => {
+    // 10.0.0.135 - это ТОЛЬКО для DEV разработки на рабочем компе! Продумать и заменить, что бы везде пахало
+    // Потом это все заменить для боя на нормальный https:// сайт с SSl сертификатом!
+    app.listen(process.env.PORT, process.env.HOSTNAME,  () => {
       console.log('-----> ', `Server start on port ${process.env.BASE_URL}`);
     })
   } catch (e) {

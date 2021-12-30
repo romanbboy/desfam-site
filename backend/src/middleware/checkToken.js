@@ -12,7 +12,7 @@ const checkToken = (req, res, next) => {
       async (err, payload) => {
         if (err) res.status(401).json({code: 401, msg: 'Не авторизованный пользователь'})
         else if (payload) {
-          const user = await User.findOne({_id: payload.id}, '_id username email position avatar accessToken')
+          const user = await User.findOne({_id: payload.id}, '_id username email position avatar accessToken expoToken')
 
           if (!user){
             res.status(401).json({code: 401, msg: 'Не авторизованный пользователь'});

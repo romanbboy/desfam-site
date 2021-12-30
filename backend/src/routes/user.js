@@ -2,7 +2,7 @@ const {Router} = require('express');
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
-const sharp = require('sharp')
+const sharp = require('sharp');
 
 const checkToken = require('../middleware/checkToken')
 const uploadAvatar = require('../middleware/uploadAvatar')
@@ -13,10 +13,10 @@ const router = Router();
 
 // Работа с текущим пользователем
 router.get('/current', checkToken, (req, res) => {
-  const {id, username, email, position, avatar} = req.user
+  const {id, username, email, position, avatar, expoToken} = req.user
 
   res.status(200).json({
-    id, username, email, position, avatar,
+    id, username, email, position, avatar, expoToken,
     accessToken: req.headers.authorization
   })
 })
@@ -33,22 +33,39 @@ router.put('/current', checkToken, uploadAvatar.single('avatar'), async (req, re
     updateFields['password'] = hash.update('desfam').digest('hex');
   }
 
-  if (req.file) {
+  // Для аватарки
+  if ((req.body.avatar && req.body.mobile) || req.file) {
     // Удаляем старую аву
-    let pathCurrentAvatar = path.resolve(__dirname, `../../..${req.user.avatar}`);
+    if (req.user.avatar) {
+      let pathCurrentAvatar = path.resolve(__dirname, `../../..${req.user.avatar}`);
 
-    fs.stat(pathCurrentAvatar, (err, stats) => {
-      if (err) console.log("Файл не найден");
-      else fs.unlinkSync(pathCurrentAvatar);
-    });
+      fs.stat(pathCurrentAvatar, (err, stats) => {
+        if (err) console.log("Файл не найден");
+        else fs.unlinkSync(pathCurrentAvatar);
+      });
+    }
 
-    // Сжимаем изображение временного файла
-    const pathTmpImg = path.resolve(__dirname, `../../../files/avatars/${req.file.filename}`)
+    let pathTmpImg, nameImg;
+
+    // Вариант для web сайта
+    if (req.file) {
+      pathTmpImg = path.resolve(__dirname, `../../../files/avatars/${req.file.filename}`);
+      nameImg = req.file.filename.replace(/\.[^.]+$/, "");
+    }
+
+    // Вариант для мобильного приложения
+    if (req.body.avatar && req.body.mobile) {
+      pathTmpImg = path.resolve(__dirname, `../../../files/avatars/avatar_mobile_tmp${+new Date()}.jpg`);
+      nameImg = `ava_mobile${+new Date()}`;
+
+      // сохраняем временный файл
+      let buff = new Buffer(req.body.avatar, 'base64');
+      fs.writeFileSync(pathTmpImg, buff);
+    }
+
     const img = sharp(pathTmpImg);
-
     let metadata = await img.metadata();
 
-    let nameImg = req.file.filename.replace(/\.[^.]+$/, "");
     let pathImg = path.resolve(__dirname, `../../../files/avatars/${nameImg}_desfam.${metadata.format}`);
 
     await img
@@ -79,6 +96,11 @@ router.put('/current', checkToken, uploadAvatar.single('avatar'), async (req, re
     }
   )
 });
+
+router.put('/expoToken', checkToken, async (req, res) => {
+  await User.findByIdAndUpdate(req.user.id, {expoToken: req.body.expoToken});
+  res.status(200).json();
+})
 
 // Работа с пользователями
 router.post('/findOne', async (req, res) => {
