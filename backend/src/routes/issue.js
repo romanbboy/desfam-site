@@ -1,5 +1,4 @@
 const moment = require('moment');
-// require('moment/locale/ru');
 const {Router} = require('express');
 
 const checkToken = require('../middleware/checkToken');
@@ -11,7 +10,7 @@ const router = Router();
 
 router.post('/', checkToken, async (req, res) => {
   const user = req.user;
-  const {datebook, target, content, date} = req.body;
+  const {datebook, target, content, date, notification} = req.body;
 
   const issue = new Issue({
     // прибавляем 3 часа к дате, что бы соответствовало Московскому времени
@@ -19,7 +18,7 @@ router.post('/', checkToken, async (req, res) => {
     date: date,
     creator: user.id,
     status: false,
-    datebook, target, content
+    datebook, target, content, notification
   });
 
   issue.save(async (err, issue) => {

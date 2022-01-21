@@ -15,6 +15,7 @@ const issueSchema = new Schema({
     ref: 'User',
   },
   status: Boolean,
+  notification: String,
   content: String
 });
 

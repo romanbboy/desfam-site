@@ -2,7 +2,9 @@ const {Router} = require('express')
 
 const checkToken = require('../middleware/checkToken')
 
-const Datebook = require('../models/datebook-model')
+const Datebook = require('../models/datebook-model');
+const Invitation = require('../models/invitation-model');
+const Issue = require('../models/issue-model');
 
 const router = Router();
 
@@ -66,6 +68,21 @@ router.get('/:id/escape', checkToken, async (req, res) => {
     res.status(200).json();
   } else {
     res.status(400).json('Ты не участник задачника');
+  }
+});
+
+// удалить задачник
+router.delete('/:id', checkToken, async (req, res) => {
+  const datebook = await Datebook.findById(req.params.id);
+
+  if (datebook.creator.toString() === req.user.id) {
+    await Invitation.deleteMany({target: datebook.id, referrer: req.user.id});
+    await Issue.deleteMany({datebook: datebook.id});
+    await Datebook.findByIdAndDelete(datebook.id);
+
+    res.status(200).json('Задачник удален');
+  } else {
+    res.status(400).json('Ты не создатель задачника');
   }
 });
 
