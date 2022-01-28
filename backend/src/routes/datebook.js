@@ -1,4 +1,5 @@
-const {Router} = require('express')
+const {Router} = require('express');
+const moment = require('moment');
 
 const checkToken = require('../middleware/checkToken')
 
@@ -32,7 +33,26 @@ router.get('/getAll', checkToken, async (req, res) => {
   const datebooks = await Datebook.find({participants: {$in: id_user}}).exec();
 
   res.status(200).json(datebooks)
-})
+});
+
+router.get('/personal', checkToken, async (req, res) => {
+  let personalDatebook = await Datebook.findOne({creator: req.user.id, type: 'personal'});
+
+  // Создаем личный задачник, если нету
+  if (!personalDatebook) {
+    personalDatebook = await Datebook({title: 'Личный задачник', creator: req.user.id, type: 'personal'});
+    await personalDatebook.save();
+  }
+
+  let startDay = moment().startOf('date');
+  
+  const issues = await Issue.find({
+    datebook: personalDatebook.id,
+    date: {$gte: startDay}
+  });
+
+  res.status(200).json({idDatebook: personalDatebook.id, issues})
+});
 
 router.get('/:id', checkToken, async (req, res) => {
   const datebook = await Datebook.findById(req.params.id).populate('participants', '-password');

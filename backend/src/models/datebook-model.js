@@ -17,7 +17,8 @@ const datebookSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'User'
     }
-  ]
+  ],
+  type: String
 })
 
 datebookSchema.set('toJSON', {

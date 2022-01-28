@@ -52,8 +52,11 @@ router.put('/:id/status', checkToken, async (req, res) => {
   const user = req.user;
 
   const issue = await Issue.findById(req.params.id);
+  const root = [issue.creator.toString()];
 
-  if ([issue.creator.toString(), issue.target.toString()].includes(user.id)) {
+  if (issue.target) root.push(issue.target.toString())
+
+  if (root.includes(user.id)) {
     const updatedIssue = await Issue.findByIdAndUpdate(req.params.id, {status: !issue.status}, {new: true}).populate('creator datebook target');
     res.status(200).json(updatedIssue);
   } else {
